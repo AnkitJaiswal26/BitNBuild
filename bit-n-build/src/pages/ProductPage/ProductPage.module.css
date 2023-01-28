@@ -117,3 +117,7 @@
     background-image: linear-gradient(#ac3fff, #860fe1);
     transform: scale(1.02);
 }
+
+.templateImage, .canvasContainer{
+    display: none;
+}

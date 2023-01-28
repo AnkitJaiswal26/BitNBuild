@@ -279,6 +279,16 @@ export const SafeBuyProvider = ({ children }) => {
     return data;
   };
 
+  const uploadFilesToIPFS = async (file) => {
+		try {
+			// console.log(file);
+			const cid = await web3Storage.put(file);
+			return cid;
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
   return (
     <SafeBuyContext.Provider
       value={{
@@ -307,8 +317,9 @@ export const SafeBuyProvider = ({ children }) => {
         checkIfAlreadyPurchased,
         fetchAllProducts,
         isOwnerAddress,
-		fetchProductItemByPrivateKey,
-		fetchProductItemByPublicKey
+        fetchProductItemByPrivateKey,
+        fetchProductItemByPublicKey,
+        uploadFilesToIPFS
       }}
     >
       {children}

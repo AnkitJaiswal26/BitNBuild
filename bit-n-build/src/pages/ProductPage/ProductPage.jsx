@@ -5,6 +5,9 @@ import { useSafeBuyContext } from "../../Context/SafeBuyContext";
 import styles from "./ProductPage.module.css";
 import { v4 as uuidv4 } from "uuid";
 import * as xlsx from "xlsx";
+import template from '../../images/template.png';
+import ProductCanvas from "./ProductCanvas";
+import jsPDF from "jspdf";
 
 const ProductPage = () => {
 	const navigate = useNavigate();
@@ -26,6 +29,7 @@ const ProductPage = () => {
 		fetchAllProductItemsByProductId,
 		fetchProductById,
 		addBulkProducts,
+		uploadFilesToIPFS
 	} = useSafeBuyContext();
 
 	const fetchUser = useCallback(async () => {
@@ -77,8 +81,6 @@ const ProductPage = () => {
 		var manuDates = [];
 		var expDates = [];
 
-		console.log("Hello");
-
 		const codesURLList = [];
 
 		for (let i = 0; i < codesQuantity; i++) {
@@ -95,6 +97,23 @@ const ProductPage = () => {
 				publicURL: `http://localhost:3000/verify/${compData.comAdd}/${publicKey}`,
 				privateURL: `http://localhost:3000/buy/${compData.comAdd}/${privateKey}`
 			});
+		}
+
+		var canvases = document.getElementsByClassName("templateCanvas");
+		console.log(canvases);
+
+		var cids = [];
+
+		for (let i = 0; i < canvases.length; i++) {
+			var url = canvases[i].toDataURL("image/png");
+			const pdf = new jsPDF("p", "mm", [157.1625, 111.125]);
+			pdf.addImage(url, "JPEG", 0, 0);
+
+			const files = [new File([pdf.output("blob")], "warranty.pdf")];
+
+			const cid = await uploadFilesToIPFS(files);
+			console.log(cid);
+			cids.push(cid);
 		}
 
 		console.log(
@@ -115,7 +134,7 @@ const ProductPage = () => {
 			privateKeys,
 			manuDates,
 			expDates,
-			tokenURI,
+			cids,
 			validities
 		);
 
@@ -124,6 +143,20 @@ const ProductPage = () => {
   		xlsx.utils.book_append_sheet(workbook, worksheet, "Codes URL");
 		xlsx.writeFile(workbook, `codes-${productId}.xlsx`);
 
+	};
+
+	const draw = async (context, entry, height, width) => {
+		var img = document.getElementById("templateImage");
+		context.drawImage(img, 0, 0, width, height);
+		context.font = "28px Arial";
+		context.fillStyle = "red";
+		context.fillText(entry.productDetails.name, 300, 225);
+		context.fillText(entry.compData.name, 300, 272);
+		context.fillText(entry.compData.cin, 300, 318);
+		context.fillText(`₹${entry.productDetails.price.toNumber()}`, 300, 364);
+		context.fillText(entry.manufDate, 300, 414);
+		context.fillText(entry.expiryDate, 300, 460);
+		context.fillText(`${entry.validity} years`, 360, 740);
 	};
 
 	const [codesQuantity, setCodesQuantity] = useState(0);
@@ -218,6 +251,35 @@ const ProductPage = () => {
 							</button>
 						</div>
 					</div>
+					<div className={styles.canvasContainer}>
+						{Array(parseInt(codesQuantity)).fill(0).map((_, index) => {
+							return (
+								<ProductCanvas
+									key={index}
+									entry={
+										{
+											productDetails: productDetails,
+											compData: compData,
+											manufDate: manufDate,
+											expiryDate: expiryDate,
+											validity: validity
+										}
+									}
+									draw={draw}
+									height={900}
+									width={700}
+								/>
+							);
+						})}
+					</div>
+					
+					<img
+						id="templateImage"
+						className={styles.templateImage}
+						height={900}
+						width={700}
+						src={template}
+					/>
 				</div>
 			</div>
 		</div>
