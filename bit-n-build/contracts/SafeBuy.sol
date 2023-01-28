@@ -117,13 +117,25 @@ contract SafeBuy {
     function fetchUserByAddress(
         address userAdd
     ) public view returns (User memory) {
-        return userMapping[userAddressToIdMapping[userAdd]];
+        for (uint256 i = 0; i < userCount; i++) {
+            if (userMapping[i].userAdd == userAdd) {
+                return userMapping[i];
+            }
+        }
+
+        revert();
     }
 
     function fetchCompanyByAddress(
         address comAdd
     ) public view returns (Company memory) {
-        return companyMapping[companyAddressToIdMapping[comAdd]];
+        for (uint256 i = 0; i < companyCount; i++) {
+            if (companyMapping[i].comAdd == comAdd) {
+                return companyMapping[i];
+            }
+        }
+
+        revert();
     }
 
     function fetchActiveRequests()

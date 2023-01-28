@@ -24,157 +24,60 @@ const Register = () => {
 
 	//BNB
 	const [name, setName] = useState("");
-	const [age, setAge] = useState("");
-	const [gender, setGender] = useState("");
+	const [age, setAge] = useState(0);
+	const [gender, setGender] = useState(false);
 
 	const [mobileNo, setMobileNo] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 
-	//   const { registerStudent, getStudent } = useCVPContext();
-	//   const { checkIfWalletConnected, currentAccount } = useAuth();
-
-	function closeModal() {
-		setModalIsOpen(false);
-	}
-	//   const openModal = async (e) => {
-	//     e.preventDefault();
-	//     if (
-	//       pubAddr === "" ||
-	//       sid === "" ||
-	//       email === "" ||
-	//       name === "" ||
-	//       mobileNo === ""
-	//     ) {
-	//       alert("Enter all details first");
-	//       return;
-	//     } else {
-	//       setModalIsOpen(true);
-	//       console.log("hjdab");
-	//       await axios
-	//         .post("/register", { email })
-	//         .then((res) => {
-	//           console.log("res", res);
-	//         })
-	//         .catch((err) => {
-	//           console.log("Errrr", err);
-	//         });
-	//     }
-	//   };
-
-	// useEffect(() => {
-	// 	checkIfWalletConnected();
-	// }, []);
-
-	//   const fetchStudent = useCallback(async () => {
-	//     try {
-	//       const student = await getStudent();
-	//       if (student) {
-	//         navigate("/dashboard");
-	//       }
-	//     } catch (err) {
-	//       // console.log(err);
-	//     }
-	//   });
-
-	// 	useEffect(() => {
-	// 		fetchStudent();
-	// 		setPubAddr(currentAccount);
-	// 	}, [currentAccount]);
 	const { checkIfWalletConnected, currentAccount } = useAuth();
-
-	const [user, setUser] = useState([]);
 
 	useEffect(() => {
 		checkIfWalletConnected();
-	}, []);
-	const { registerUser, fetchUserByAddress } = useSafeBuyContext();
+	}, [currentAccount]);
+
+	const { registerUser, fetchUserByAddress, fetchCompanyByAddress } =
+		useSafeBuyContext();
+	const fetchUser = useCallback(async () => {
+		try {
+			const user = await fetchUserByAddress(currentAccount);
+			console.log(user);
+			if (user.name !== "") {
+				navigate("/");
+			} else {
+				const company = await fetchCompanyByAddress(currentAccount);
+				if (company.cin !== "") {
+					navigate("/");
+				}
+			}
+		} catch (err) {}
+	});
+
+	useEffect(() => {
+		if (currentAccount) fetchUser();
+	}, [currentAccount]);
 
 	const handleSubmit = async (e) => {
 		console.log("Hello");
 		e.preventDefault();
 		try {
-			console.log("Hello");
+			console.log(currentAccount, name, email, mobileNo, gender, age);
 			await registerUser(
 				currentAccount,
-				"Ankit",
-				"jankit@gmail.com",
-				"7977005251",
-				true,
-				21
+				name,
+				email,
+				mobileNo,
+				gender,
+				age
 			);
-
-			await fetchUserByAddress(currentAccount);
 		} catch (err) {
 			console.log(err);
 		}
 		console.log("Register");
 	};
-	const handleGenderChnage = (e) => {
-		setGender(e.target.value);
-	};
 
 	return (
 		<>
-			<Modal
-				isOpen={modalIsOpen}
-				onRequestClose={closeModal}
-				contentLabel="Enter OTP"
-				style={{
-					content: {
-						top: "50%",
-						left: "50%",
-						right: "auto",
-						bottom: "auto",
-						marginRight: "-50%",
-						transform: "translate(-50%, -50%)",
-					},
-				}}
-			>
-				<div className={styles.modalContainer}>
-					<button className={styles.closeButton} onClick={closeModal}>
-						<CloseIcon />
-					</button>
-					<h2
-						className={styles.heading}
-						style={{
-							width: "100%",
-							textAlign: "center",
-						}}
-					>
-						Enter OTP
-					</h2>
-
-					<form>
-						<div className={styles.inputGroup}>
-							<input
-								className={`${styles.input}`}
-								style={{
-									resize: "none",
-								}}
-								type="text"
-								placeholder="Enter OTP"
-								onChange={(e) => setOtp(e.target.value)}
-								value={otp}
-							/>
-						</div>
-
-						<button
-							className={`${styles.submitButton}`}
-							onClick={handleSubmit}
-						>
-							{isLoading ? (
-								<MoonLoader
-									className={styles.loader}
-									color="white"
-									size={20}
-								/>
-							) : (
-								"Submit"
-							)}
-						</button>
-					</form>
-				</div>
-			</Modal>
 			<div className={styles.registerPageContainer}>
 				<form className={`${styles.formBox}`} onSubmit={handleSubmit}>
 					<div className={`${styles.header}`}>
@@ -194,10 +97,30 @@ const Register = () => {
 						/>
 					</div>
 					<div className={`${styles.inputContainer}`}>
-						<label className={`${styles.inputLabel}`}>Age</label>
+						<label className={`${styles.inputLabel}`}>Email</label>
 						<input
 							className={`${styles.input}`}
 							type="text"
+							onChange={(e) => setEmail(e.target.value)}
+							value={email}
+						/>
+					</div>
+					<div className={`${styles.inputContainer}`}>
+						<label className={`${styles.inputLabel}`}>
+							Mobile No
+						</label>
+						<input
+							className={`${styles.input}`}
+							type="text"
+							onChange={(e) => setMobileNo(e.target.value)}
+							value={mobileNo}
+						/>
+					</div>
+					<div className={`${styles.inputContainer}`}>
+						<label className={`${styles.inputLabel}`}>Age</label>
+						<input
+							className={`${styles.input}`}
+							type="number"
 							onChange={(e) => setAge(e.target.value)}
 							value={age}
 						/>
@@ -206,11 +129,11 @@ const Register = () => {
 						<label className={`${styles.inputLabel}`}>Gender</label>
 						<select
 							className={`${styles.input}`}
-							onChange={handleGenderChnage}
+							onChange={(e) => setGender(e.target.value)}
 						>
-							<option>Male</option>
-							<option>Female</option>
-							<option>Others</option>
+							<option value={true}>Male</option>
+							<option value={false}>Female</option>
+							{/* <option>Others</option> */}
 						</select>
 					</div>
 
