@@ -98,6 +98,112 @@ export const SafeBuyProvider = ({ children }) => {
 		return user;
 	};
 
+	const addProduct = async (contractAddress, name, price) => {
+		const contract = await connectingWithCompanyNFT(contractAddress);
+		await contract.addProduct(name, price);
+	};
+
+	const fetchCompanyDetails = async (contractAddress) => {
+		const contract = await connectingWithCompanyNFT(contractAddress);
+		const data = await contract.fetchCompanyDetails();
+		console.log(data);
+		return data;
+	};
+
+	const mint = async (
+		contractAddress,
+		productId,
+		manDate,
+		exDate,
+		pubKey,
+		privateKey,
+		tokenURI,
+		validity
+	) => {
+		const contract = await connectingWithCompanyNFT(contractAddress);
+		await contract.mint(
+			productId,
+			manDate,
+			exDate,
+			pubKey,
+			privateKey,
+			tokenURI,
+			validity
+		);
+	};
+
+	const addBulkProducts = async (
+		contractAddress,
+		productId,
+		pubKeys,
+		privateKeys,
+		manDate,
+		exDate,
+		tokenURI,
+		validity
+	) => {
+		const contract = await connectingWithCompanyNFT(contractAddress);
+		await contract.addBulkProducts(
+			productId,
+			pubKeys,
+			privateKeys,
+			manDate,
+			exDate,
+			tokenURI,
+			validity
+		);
+	};
+
+	const fetchProdutById = async (contractAddress, productId) => {
+		const contract = await connectingWithCompanyNFT(contractAddress);
+		const data = await contract.fetchProdutById(productId);
+		return data;
+	};
+
+	const fetchAllProductItemsByProductId = async (
+		contractAddress,
+		productId
+	) => {
+		const contract = await connectingWithCompanyNFT(contractAddress);
+		const data = await contract.fetchAllProductItemsByProductId(productId);
+		return data;
+	};
+
+	const fetchProductItemById = async (contractAddress, itemId) => {
+		const contract = await connectingWithCompanyNFT(contractAddress);
+		const data = await contract.fetchProductItemById(itemId);
+		return data;
+	};
+
+	const buyProduct = async (contractAddress, privateKey, tokenURI) => {
+		const contract = await connectingWithCompanyNFT(contractAddress);
+		await contract.fetchProdutById(privateKey, tokenURI);
+	};
+
+	const checkState = async (contractAddress, pubKey) => {
+		const contract = await connectingWithCompanyNFT(contractAddress);
+		const data = await contract.checkState(pubKey);
+		return data;
+	};
+
+	const checkIfAlreadyPurchased = async (contractAddress, pubKey) => {
+		const contract = await connectingWithCompanyNFT(contractAddress);
+		const data = await contract.checkIfAlreadyPurchased(pubKey);
+		return data;
+	};
+
+	const fetchUserItems = async (contractAddress) => {
+		const contract = await connectingWithCompanyNFT(contractAddress);
+		const data = await contract.fetchUserItems();
+		return data;
+	};
+
+	const fetchAllItems = async (contractAddress) => {
+		const contract = await connectingWithCompanyNFT(contractAddress);
+		const data = await contract.fetchAllItems();
+		return data;
+	};
+
 	return (
 		<SafeBuyContext.Provider
 			value={{
