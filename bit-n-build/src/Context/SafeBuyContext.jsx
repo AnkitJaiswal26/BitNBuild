@@ -115,7 +115,6 @@ export const SafeBuyProvider = ({ children }) => {
 	const fetchUserByAddress = async (userAddress) => {
 		const contract = await connectingWithSmartContract();
 		const user = await contract.fetchUserByAddress(userAddress);
-		console.log(user);
 		return user;
 	};
 	const fetchCompanyByAddress = async (companyAddress) => {
