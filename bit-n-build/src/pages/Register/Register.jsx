@@ -36,19 +36,13 @@ const Register = () => {
 		checkIfWalletConnected();
 	}, [currentAccount]);
 
-	const { registerUser, fetchUserByAddress, fetchCompanyByAddress } =
-		useSafeBuyContext();
+	const { registerUser, fetchUserByAddress } = useSafeBuyContext();
 	const fetchUser = useCallback(async () => {
 		try {
 			const user = await fetchUserByAddress(currentAccount);
 			console.log(user);
 			if (user.name !== "") {
-				navigate("/");
-			} else {
-				const company = await fetchCompanyByAddress(currentAccount);
-				if (company.cin !== "") {
-					navigate("/");
-				}
+				navigate("/userDashboard");
 			}
 		} catch (err) {}
 	});

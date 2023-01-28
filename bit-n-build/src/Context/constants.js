@@ -1,7 +1,7 @@
 import safeBuy from "../artifacts/contracts/SafeBuy.sol/SafeBuy.json";
 import companyNFT from "../artifacts/contracts/CompanyNFT.sol/CompanyNFT.json";
 
-export const SafeBuyAddress = "0x56C58212a12e7dC9E9d0433CAb2d5c7856AA1322";
+export const SafeBuyAddress = "0x5506f75ffC8fA955f9A1FF14DD197606e62c8158";
 export const SafeBuyABI = safeBuy.abi;
 export const CompanyNFTABI = companyNFT.abi;
 
