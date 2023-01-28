@@ -205,7 +205,7 @@ export const SafeBuyProvider = ({ children }) => {
 
 	const fetchProdutById = async (contractAddress, productId) => {
 		const contract = await connectingWithCompanyNFT(contractAddress);
-		const data = await contract.fetchProdutById(productId);
+		const data = await contract.fetchProductById(productId);
 		return data;
 	};
 
