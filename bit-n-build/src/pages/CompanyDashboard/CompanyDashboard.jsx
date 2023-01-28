@@ -32,8 +32,12 @@ const CompanyDashboard = () => {
     checkIfWalletConnected();
   }, [currentAccount]);
 
-  const { fetchCompanyByAddress, fetchCompanyNFTAddress, fetchAllProducts } =
-    useSafeBuyContext();
+	const {
+		fetchCompanyByAddress,
+		fetchCompanyNFTAddress,
+		fetchAllProductItemsByProductId,
+		fetchAllProducts,
+	} = useSafeBuyContext();
 
   const fetchUser = useCallback(async () => {
     try {
@@ -48,10 +52,6 @@ const CompanyDashboard = () => {
     }
   });
 
-  const fetchProducts = useCallback(async () => {
-    const result = await fetchAllProducts();
-  });
-
   useEffect(() => {
     if (currentAccount) fetchUser();
   }, [currentAccount]);
@@ -60,29 +60,51 @@ const CompanyDashboard = () => {
   const [productNameInModal, setProductNameInModal] = useState("");
   const [productPriceInModal, setProductPriceInModal] = useState("");
 
-  const products = [
-    {
-      name: "Airdopes 121 v2",
-      codesGen: 204
-    },
-    {
-      name: "Rockerz 235 v2",
-      codesGen: 1056
-    },
-    {
-      name: "BassHeads 103",
-      codesGen: 2046
-    },
-  ];
-  const requests = [];
-  const requestType = "Update"
+	const fetchProducts = useCallback(async () => {
+		const result = await fetchAllProducts(companyNFTAdd);
+		var res = [];
+		for (let i = 0; i < result.length; i++) {
+			const data = await fetchAllProductItemsByProductId(
+				companyNFTAdd,
+				res.productId
+			);
+
+			res.push({
+				name: result[i].name,
+				count: data.length,
+				productId: result[i].productId,
+				price: result[i].price,
+			});
+		}
+		setProducts(res);
+		console.log(res);
+	});
+
+	useEffect(() => {
+		if (currentAccount) fetchUser();
+		if (companyNFTAdd) fetchProducts();
+	}, [currentAccount, companyNFTAdd]);
+
+	const [products, setProducts] = useState([
+		{
+			name: "Airdopes 121 v2",
+			codesGen: 204,
+		},
+		{
+			name: "Rockerz 235 v2",
+			codesGen: 1056,
+		},
+		{
+			name: "BassHeads 103",
+			codesGen: 2046,
+		},
+	]);
 
   const closeAddProductModal = () => {
     setIsAddProductModalOpen(false);
   }
 
   const openAddProductModal = () => {
-    console.log("Asdf")
     setIsAddProductModalOpen(true);
   }
 
@@ -171,26 +193,34 @@ const CompanyDashboard = () => {
                   <span className={styles.docCardContent}>Codes Generated</span>
                 </div>
                 {products.map((item, index) => {
-                  return (
-                    <div
-                      className={
-                        index % 2 == 0
-                          ? `${styles.docCard} ${styles.evenDocCard}`
-                          : `${styles.docCard} ${styles.oddDocCard}`
-                      }
-                      onClick={() => {
-                        //   openDocPage(item.file.cid, item.file.fileName);
-                      }}
-                    >
-                      <span className={styles.docCardContent}>
-                        {item.name}
-                      </span>
-                      <span className={styles.docCardContent}>
-                        {item.codesGen}
-                      </span>
-                    </div>
-                  );
-                })}
+									return (
+										<div
+											className={
+												index % 2 === 0
+													? `${styles.docCard} ${styles.evenDocCard}`
+													: `${styles.docCard} ${styles.oddDocCard}`
+											}
+											onClick={() => {
+												//   openDocPage(item.file.cid, item.file.fileName);
+											}}
+										>
+											<span
+												className={
+													styles.docCardContent
+												}
+											>
+												{item.name}
+											</span>
+											<span
+												className={
+													styles.docCardContent
+												}
+											>
+												{item.count}
+											</span>
+										</div>
+									);
+								})}
               </>
             ) : (
               <span className={styles.emptyListMessage}>
