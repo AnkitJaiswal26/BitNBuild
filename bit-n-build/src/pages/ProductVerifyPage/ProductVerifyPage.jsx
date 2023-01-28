@@ -1,24 +1,209 @@
-import React from "react";
-import styles from './ProductVerifyPage.module.css';
+import React, { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { useAuth } from "../../Context/AuthContext";
+import { useSafeBuyContext } from "../../Context/SafeBuyContext";
+import styles from "./ProductVerifyPage.module.css";
 
 const ProductVerifyPage = () => {
+	const { checkIfWalletConnected, currentAccount } = useAuth();
+	const [product, setProduct] = useState([]);
+	const [productName, setProductName] = useState("");
+	const [companyName, setCompanyName] = useState("");
+	const [state, setState] = useState(0);
 
-    const checkProduct = () => {
+	useEffect(() => {
+		checkIfWalletConnected();
+	}, [currentAccount]);
 
-    }
+	useEffect(() => {
+		fetchProductItem();
+		checkStateOfProductItem();
+	}, [currentAccount]);
 
-    return (
-        <div className={styles.verifyPageContainer}>
-            <div className={styles.verifyContainer}>
-                <span className={styles.verifyDetails}>Product Name: <span className={styles.detailsContent}>Airdopes 121 v2</span></span>
-                <span className={styles.verifyDetails}>Company: <span className={styles.detailsContent}>boAt Lifestyles</span></span>
-                <span className={styles.verifyDetails}>Company Identification Number: <span className={styles.detailsContent}>191080080</span></span>
-                <span className={styles.verifyDetails}>Manufacture Date: <span className={styles.detailsContent}>15/07/2022</span></span>
-                <span className={styles.verifyDetails}>Expiry Date: <span className={styles.detailsContent}>15/07/2023</span></span>
-                <button onClick={checkProduct} className={styles.checkProductBtn}>Check Product</button>
-            </div>
-        </div>
-    );
-}
+	const {
+		buyProduct,
+		fetchProductItemById,
+		fetchProductById,
+		fetchCompanyByAddress,
+		fetchCompanyNFTAddress,
+		checkState,
+		fetchProductItemByPublicKey,
+	} = useSafeBuyContext();
+
+	const fetchProductItem = useCallback(async () => {
+		try {
+			var companyAddress = window.location.pathname.split("/")[2];
+			var pubKey = window.location.pathname.split("/")[3];
+
+			const companyNFTAddress = await fetchCompanyNFTAddress(
+				companyAddress
+			);
+
+			const id = await fetchProductItemByPublicKey(
+				companyNFTAddress,
+				pubKey
+			);
+
+			const data = await fetchProductItemById(companyNFTAddress, id);
+
+			const product = await fetchProductById(
+				companyNFTAddress,
+				data.productId.toNumber()
+			);
+
+			const company = await fetchCompanyByAddress(companyAddress);
+
+			var productItem = [
+				{
+					productName: product.name,
+					companyName: company.name,
+					cin: company.cin,
+					manDate: data.man_date,
+					exDate: data.ex_date,
+				},
+			];
+			setProduct(productItem);
+			console.log("data", productItem);
+		} catch (err) {
+			console.log(err);
+		}
+	});
+
+	const checkStateOfProductItem = useCallback(async () => {
+		try {
+			var companyAddress = window.location.pathname.split("/")[2];
+			var pubKey = window.location.pathname.split("/")[3];
+
+			const companyNFTAddress = await fetchCompanyNFTAddress(
+				companyAddress
+			);
+
+			const id = await fetchProductItemByPublicKey(
+				companyNFTAddress,
+				pubKey
+			);
+
+			const productItem = await fetchProductItemById(
+				companyNFTAddress,
+				id
+			);
+
+			console.log(productItem);
+
+			const data = await checkState(
+				companyNFTAddress,
+				productItem.pubKey
+			);
+			setState(parseInt(data));
+			return parseInt(data.toNumber());
+		} catch (err) {
+			console.log(err);
+		}
+	});
+
+	// const checkProduct = useCallback(async () => {
+	// 	try {
+	// 		var companyAddress = window.location.pathname.split("/")[2];
+	// 		var privateKey = window.location.pathname.split("/")[3];
+
+	// 		const companyNFTAddress = await fetchCompanyNFTAddress(
+	// 			companyAddress
+	// 		);
+
+	// 		await buyProduct(
+	// 			companyNFTAddress,
+	// 			privateKey,
+	// 			"0x5506f75ffC8fA955f9A1FF14DD197606e62c8158"
+	// 		);
+	// 		// (contractAddress, privateKey, tokenURI)
+	// 		console.log("Product purchased and Private Key verified");
+	// 	} catch (err) {
+	// 		console.log(err);
+	// 	}
+	// });
+
+	return (
+		<>
+			{state === 0 ? (
+				<div className={styles.verifyPageContainer}>
+					<div className={styles.verifyContainer}>
+						{product.map((item, index) => {
+							return (
+								<div
+									className={styles.verifyContainer}
+									key={index}
+								>
+									<span className={styles.verifyDetails}>
+										Product Name:{" "}
+										<span className={styles.detailsContent}>
+											{item.productName}
+										</span>
+									</span>
+									<span className={styles.verifyDetails}>
+										Company:{" "}
+										<span className={styles.detailsContent}>
+											{item.companyName}
+										</span>
+									</span>
+									<span className={styles.verifyDetails}>
+										Company Identification Number:{" "}
+										<span className={styles.detailsContent}>
+											{item.cin}
+										</span>
+									</span>
+									<span className={styles.verifyDetails}>
+										Manufacture Date:{" "}
+										<span className={styles.detailsContent}>
+											{item.manDate}
+										</span>
+									</span>
+									<span className={styles.verifyDetails}>
+										Expiry Date:{" "}
+										<span className={styles.detailsContent}>
+											{item.exDate}
+										</span>
+									</span>
+								</div>
+							);
+						})}
+
+						<span className={styles.verifyDetails}>
+							Product Name:{" "}
+							<span className={styles.detailsContent}>
+								Airdopes 121 v2
+							</span>
+						</span>
+						<span className={styles.verifyDetails}>
+							Company:{" "}
+							<span className={styles.detailsContent}>
+								boAt Lifestyles
+							</span>
+						</span>
+						<span className={styles.verifyDetails}>
+							Company Identification Number:{" "}
+							<span className={styles.detailsContent}>
+								191080080
+							</span>
+						</span>
+						<span className={styles.verifyDetails}>
+							Manufacture Date:{" "}
+							<span className={styles.detailsContent}>
+								15/07/2022
+							</span>
+						</span>
+						<span className={styles.verifyDetails}>
+							Expiry Date:{" "}
+							<span className={styles.detailsContent}>
+								15/07/2023
+							</span>
+						</span>
+					</div>
+				</div>
+			) : (
+				<div>The Product is already purchased!</div>
+			)}
+		</>
+	);
+};
 
 export default ProductVerifyPage;
