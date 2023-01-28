@@ -4,16 +4,19 @@ import { useNavigate } from "react-router-dom";
 import { useCallback, useState, useEffect, useRef } from "react";
 import { useAuth } from "../../Context/AuthContext";
 import { useSafeBuyContext } from "../../Context/SafeBuyContext";
+import { stat } from "fs";
 
 const BuyPage = () => {
   const { checkIfWalletConnected, currentAccount } = useAuth();
   const [product, setProduct] = useState([]);
   const [productName, setProductName] = useState("");
   const [companyName, setCompanyName] = useState("");
+  const [state, setState] = useState(0);
 
   useEffect(() => {
     checkIfWalletConnected();
     fetchProductItem();
+    checkStateOfProductItem();
   }, []);
 
   const {
@@ -40,10 +43,10 @@ const BuyPage = () => {
         companyNFTAddress,
         privateKey
       );
-      console.log("Product ID", id);
+      console.log("ProductItem ID", id);
 
       const data = await fetchProductItemById(companyNFTAddress, id);
-      console.log("data", data.productId.toNumber());
+      console.log("Product ID", data.productId.toNumber());
 
       const product = await fetchProductById(
         companyNFTAddress,
@@ -71,20 +74,40 @@ const BuyPage = () => {
   });
 
   const checkStateOfProductItem = useCallback(async () => {
-    // try {
-    //   const companyNFTAddress = await fetchCompanyNFTAddress(companyAddress);
-    //   console.log(companyAddress, "aa", companyNFTAddress);
-    //   await checkState(companyNFTAddress);
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    try {
+      var companyAddress = window.location.pathname.split("/")[2];
+      var privateKey = window.location.pathname.split("/")[3];
+
+      const companyNFTAddress = await fetchCompanyNFTAddress(companyAddress);
+      console.log(companyAddress, "aa", companyNFTAddress);
+
+      const id = await fetchProductItemByPrivateKey(
+        companyNFTAddress,
+        privateKey
+      );
+      console.log("ProductItem ID", id);
+
+      const productItem = await fetchProductItemById(companyNFTAddress, id);
+
+      const data = await checkState(companyNFTAddress, productItem.pubKey);
+      console.log("checkState", data.toNumber());
+      setState(parseInt(data));
+      return parseInt(data.toNumber());
+    } catch (err) {
+      console.log(err);
+    }
   });
 
   const checkProduct = useCallback(async () => {
     try {
+      var companyAddress = window.location.pathname.split("/")[2];
+      var privateKey = window.location.pathname.split("/")[3];
+
+      const companyNFTAddress = await fetchCompanyNFTAddress(companyAddress);
+
       await buyProduct(
-        currentAccount,
-        "0x5506f75ffC8fA955f9A1FF14DD197606e62c8158",
+        companyNFTAddress,
+        privateKey,
         "0x5506f75ffC8fA955f9A1FF14DD197606e62c8158"
       );
       // (contractAddress, privateKey, tokenURI)
@@ -95,37 +118,50 @@ const BuyPage = () => {
   });
 
   return (
-    <div className={styles.verifyPageContainer}>
-      {product.map((item, index) => {
-        return (
-          <div className={styles.verifyContainer} key={index}>
-            <span className={styles.verifyDetails}>
-              Product Name:{" "}
-              <span className={styles.detailsContent}>{item.productName}</span>
-            </span>
-            <span className={styles.verifyDetails}>
-              Company:{" "}
-              <span className={styles.detailsContent}>{item.companyName}</span>
-            </span>
-            <span className={styles.verifyDetails}>
-              Company Identification Number:{" "}
-              <span className={styles.detailsContent}>{item.cin}</span>
-            </span>
-            <span className={styles.verifyDetails}>
-              Manufacture Date:{" "}
-              <span className={styles.detailsContent}>{item.man_date}</span>
-            </span>
-            <span className={styles.verifyDetails}>
-              Expiry Date:{" "}
-              <span className={styles.detailsContent}>{item.ex_date}</span>
-            </span>
-            <button onClick={checkProduct} className={styles.checkProductBtn}>
-              Buy Product
-            </button>
-          </div>
-        );
-      })}
-    </div>
+    <>
+      {state == 0 ? (
+        <div className={styles.verifyPageContainer}>
+          {product.map((item, index) => {
+            return (
+              <div className={styles.verifyContainer} key={index}>
+                <span className={styles.verifyDetails}>
+                  Product Name:{" "}
+                  <span className={styles.detailsContent}>
+                    {item.productName}
+                  </span>
+                </span>
+                <span className={styles.verifyDetails}>
+                  Company:{" "}
+                  <span className={styles.detailsContent}>
+                    {item.companyName}
+                  </span>
+                </span>
+                <span className={styles.verifyDetails}>
+                  Company Identification Number:{" "}
+                  <span className={styles.detailsContent}>{item.cin}</span>
+                </span>
+                <span className={styles.verifyDetails}>
+                  Manufacture Date:{" "}
+                  <span className={styles.detailsContent}>{item.man_date}</span>
+                </span>
+                <span className={styles.verifyDetails}>
+                  Expiry Date:{" "}
+                  <span className={styles.detailsContent}>{item.ex_date}</span>
+                </span>
+                <button
+                  onClick={checkProduct}
+                  className={styles.checkProductBtn}
+                >
+                  Buy Product
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div>The Product is already purchased!</div>
+      )}
+    </>
   );
 };
 
