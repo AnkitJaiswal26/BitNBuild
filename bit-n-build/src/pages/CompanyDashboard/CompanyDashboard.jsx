@@ -43,6 +43,7 @@ const CompanyDashboard = () => {
     try {
       const company = await fetchCompanyByAddress(currentAccount);
       setCompData(company);
+	  console.log("comp",company)
 
       const compNFTAdd = await fetchCompanyNFTAddress(company.comAdd);
       setCompanyNFTAdd(compNFTAdd);

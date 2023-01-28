@@ -118,8 +118,9 @@ export const SafeBuyProvider = ({ children }) => {
     return user;
   };
   const fetchCompanyByAddress = async (companyAddress) => {
-    const contract = await connectingWithSmartContract();
-    const company = await contract.fetchCompanyByAddress(companyAddress);
+	  const contract = await connectingWithSmartContract();
+	  console.log("Yaya")
+	  const company = await contract.fetchCompanyByAddress(companyAddress);
     console.log(company);
     return company;
   };
@@ -224,6 +225,18 @@ export const SafeBuyProvider = ({ children }) => {
     return data;
   };
 
+  const fetchProductItemByPrivateKey = async (contractAddress, privateKey) => {
+	const contract = await connectingWithCompanyNFT(contractAddress);
+	const data = await contract.fetchProductItemByPrivateKey(privateKey);
+	return data;
+  }
+
+  const fetchProductItemByPublicKey = async (contractAddress, publicKey) => {
+	const contract = await connectingWithCompanyNFT(contractAddress);
+	const data = await contract.fetchProductItemByPublicKey(publicKey);
+	return data;
+  }
+
   const buyProduct = async (contractAddress, privateKey, tokenURI) => {
     const contract = await connectingWithCompanyNFT(contractAddress);
     await contract.buyProduct(privateKey, tokenURI);
@@ -294,6 +307,8 @@ export const SafeBuyProvider = ({ children }) => {
         checkIfAlreadyPurchased,
         fetchAllProducts,
         isOwnerAddress,
+		fetchProductItemByPrivateKey,
+		fetchProductItemByPublicKey
       }}
     >
       {children}

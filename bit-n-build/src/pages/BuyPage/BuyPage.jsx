@@ -22,16 +22,25 @@ const BuyPage = () => {
     fetchProductById,
     fetchCompanyByAddress,
     fetchCompanyNFTAddress,
+    checkState,
+    fetchProductItemByPrivateKey,
   } = useSafeBuyContext();
 
   const fetchProductItem = useCallback(async () => {
     try {
       var companyAddress = window.location.pathname.split("/")[2];
-      var id = parseInt(window.location.pathname.split("/")[3]);
-      console.log(typeof id);
+      var privateKey = window.location.pathname.split("/")[3];
+
+      console.log(typeof privateKey);
 
       const companyNFTAddress = await fetchCompanyNFTAddress(companyAddress);
       console.log(companyAddress, "aa", companyNFTAddress);
+
+      const id = await fetchProductItemByPrivateKey(
+        companyNFTAddress,
+        privateKey
+      );
+      console.log("Product ID", id);
 
       const data = await fetchProductItemById(companyNFTAddress, id);
       console.log("data", data.productId.toNumber());
@@ -59,6 +68,16 @@ const BuyPage = () => {
     } catch (err) {
       console.log(err);
     }
+  });
+
+  const checkStateOfProductItem = useCallback(async () => {
+    // try {
+    //   const companyNFTAddress = await fetchCompanyNFTAddress(companyAddress);
+    //   console.log(companyAddress, "aa", companyNFTAddress);
+    //   await checkState(companyNFTAddress);
+    // } catch (err) {
+    //   console.log(err);
+    // }
   });
 
   const checkProduct = useCallback(async () => {

@@ -207,6 +207,18 @@ contract CompanyNFT is ERC721URIStorage {
     ) public view returns (ProductItem memory) {
         return productItemsMapping[itemId];
     }
+    
+    function fetchProductItemByPrivateKey(
+        string memory privateKey
+    ) public view returns (uint256 id) {
+        return privateKeyToProductItemMapping[privateKey];
+    }
+
+    function fetchProductItemByPublicKey(
+        string memory publicKey
+    ) public view returns (uint256 id) {
+        return privateKeyToProductItemMapping[pubKeyToPrivateKeyMapping[publicKey]];
+    }
 
     function growNFT(uint256 tokenId, string memory tokenURI) private {
         require(id_to_currentURI[tokenId] < 2, "It id impossible to grow more");
