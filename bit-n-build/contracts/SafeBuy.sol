@@ -83,6 +83,8 @@ contract SafeBuy {
             companyAddressToIdRequestMapping[companyAdd]
         ];
 
+        companyAddressToIdMapping[companyAdd] = companyCount;
+
         companyNFTMapping[companyCount] = new CompanyNFT(
             companyMapping[companyCount].name,
             companyMapping[companyCount].cin,
@@ -183,7 +185,9 @@ contract SafeBuy {
         revert();
     }
 
-    function fetchCompanyNFTAddress(address companyAddr) public view returns (address) {
+    function fetchCompanyNFTAddress(
+        address companyAddr
+    ) public view returns (address) {
         return
             address(companyNFTMapping[companyAddressToIdMapping[companyAddr]]);
     }
