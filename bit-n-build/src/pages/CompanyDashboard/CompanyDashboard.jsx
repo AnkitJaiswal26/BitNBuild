@@ -142,6 +142,9 @@ const CompanyDashboard = () => {
 													: `${styles.docCard} ${styles.oddDocCard}`
 											}
 											onClick={() => {
+												navigate(
+													`/product/${item.productId}`
+												);
 												//   openDocPage(item.file.cid, item.file.fileName);
 											}}
 										>
