@@ -19,8 +19,12 @@ const CompanyDashboard = () => {
 		checkIfWalletConnected();
 	}, [currentAccount]);
 
-	const { fetchCompanyByAddress, fetchCompanyNFTAddress, fetchAllProducts } =
-		useSafeBuyContext();
+	const {
+		fetchCompanyByAddress,
+		fetchCompanyNFTAddress,
+		fetchAllProductItemsByProductId,
+		fetchAllProducts,
+	} = useSafeBuyContext();
 
 	const fetchUser = useCallback(async () => {
 		try {
@@ -28,21 +32,38 @@ const CompanyDashboard = () => {
 			setCompData(company);
 
 			const compNFTAdd = await fetchCompanyNFTAddress();
-			console.log(compNFTAdd);
+			setCompanyNFTAdd(compNFTAdd);
 		} catch (err) {
 			navigate("/registerCompany");
 		}
 	});
 
 	const fetchProducts = useCallback(async () => {
-		const result = await fetchAllProducts();
+		const result = await fetchAllProducts(companyNFTAdd);
+		var res = [];
+		for (let i = 0; i < result.length; i++) {
+			const data = await fetchAllProductItemsByProductId(
+				companyNFTAdd,
+				res.productId
+			);
+
+			res.push({
+				name: result[i].name,
+				count: data.length,
+				productId: result[i].productId,
+				price: result[i].price,
+			});
+		}
+		setProducts(res);
+		console.log(res);
 	});
 
 	useEffect(() => {
 		if (currentAccount) fetchUser();
-	}, [currentAccount]);
+		if (companyNFTAdd) fetchProducts();
+	}, [currentAccount, companyNFTAdd]);
 
-	const products = [
+	const [products, setProducts] = useState([
 		{
 			name: "Airdopes 121 v2",
 			codesGen: 204,
@@ -55,7 +76,7 @@ const CompanyDashboard = () => {
 			name: "BassHeads 103",
 			codesGen: 2046,
 		},
-	];
+	]);
 	const requests = [];
 	const requestType = "Update";
 
@@ -136,7 +157,7 @@ const CompanyDashboard = () => {
 													styles.docCardContent
 												}
 											>
-												{item.codesGen}
+												{item.count}
 											</span>
 										</div>
 									);
