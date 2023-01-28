@@ -20,29 +20,27 @@ const Admin = () => {
   const { fetchActiveRequests, acceptCompany, rejectCompany, isOwnerAddress } =
     useSafeBuyContext();
 
-  const fetchAdmin = useCallback(async () => {
+  const fetchAdmin = async () => {
     try {
-      const owner = await isOwnerAddress();
-      console.log(owner);
-      setIsOwner(owner);
+      var own = await isOwnerAddress();
+      setIsOwner(own);
+      console.log(own);
+      if (!own) navigate("/register");
+      else fetchRequests();
     } catch (err) {
       console.log(err);
-      navigate("/register");
     }
-  });
+  };
 
   useEffect(() => {
     console.log(currentAccount);
-    if (currentAccount !== "") fetchAdmin();
+    checkIfWalletConnected();
+    if (currentAccount !== "") {
+      fetchAdmin();
+    }
   }, [currentAccount]);
 
-  useEffect(() => {
-    checkIfWalletConnected();
-    fetchRequests();
-  }, []);
-
   const fetchRequests = useCallback(async () => {
-    if (owner) {
       console.log("Hello Admin :)");
       try {
         const data = await fetchActiveRequests();
@@ -50,7 +48,7 @@ const Admin = () => {
       } catch (err) {
         console.log(err);
       }
-    }
+    
   });
 
   const acceptComp = useCallback(async (e, comAdd) => {
