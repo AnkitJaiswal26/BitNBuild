@@ -1,0 +1,244 @@
+.companyDashboardContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dashboardBox{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.heading{
+    font-size: 25px;
+	font-weight: 700;
+	width: 100%;
+	color: #555;
+	margin-bottom: 20px;
+    text-align: center;
+}
+
+.name{
+    color: #981EF8;
+    display: flex;
+    justify-content: start;
+    font-weight: bold;
+    text-overflow: ellipsis;
+}
+
+.accountName{
+    color: #981EF8;
+}
+
+.detailsHeading{
+    font-size: 20px;
+	font-weight: 700;
+	color: #555;
+	margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+    border-bottom: 2px solid #981EF8;
+    padding: 10px 0px;
+}
+
+.viewAllBtn{
+    border: none;
+    outline: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.2rem;
+    background-color: transparent;
+    color: #981EF8;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.viewAllBtn:hover{
+    background-color: #f4e5ff;
+}
+
+.addProductBtn{
+    border: none;
+    outline: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.2rem;
+    background-color: #981EF8;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.detailsBox{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    font-size: 1.1rem;
+    padding: 10px;
+}
+
+.emptyListMessage{}
+
+.detailsBoxContent{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 1.5rem;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.key{
+    display: flex;
+}
+
+.details{
+    padding: 10px;
+    margin: auto;
+}
+
+.docCardHeader{
+    display: flex;
+    flex-direction: row;
+    padding: 0.5rem;
+    background-image: linear-gradient(#ac3fff, #981EF8);
+    color: white;
+    border-radius: 0.2rem;
+}
+
+.docCard{
+    display: flex;
+    flex-direction: row;
+    padding: 0.5rem;
+    background-color: #F2E2FF;
+    border-radius: 0.2rem;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+.oddDocCard{
+    background-color: #F9F2FF;
+}
+
+.docCard:hover{
+    background-color: #edd8ff;
+    transform: translateY(-0.1rem);
+}
+
+.docCardContent{
+    flex: 1;
+}
+
+.formBox {
+	/* padding: 10px 40px; */
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	transition: 0.5s;
+    width: 100%;
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: row;
+    width: 60%;
+}
+
+.inputLabel {
+    font-size: 1.1rem;
+    color: #555;
+    font-weight: 600;
+    padding: 20px 10px;
+    width: 100%;
+}
+
+.input {
+    width: 100%;
+    padding: 12px 0px;
+    outline: none;
+    border: none;
+    margin: 10px;
+    font-size: 1.1rem;
+    border-bottom: 1px #525252 solid;
+}
+
+.inputUpload{
+    width: 100%;
+    outline: none;
+    border: none;
+    font-size: 1.1rem;
+}
+
+.inputCombined {
+	border: 0px;
+    border-radius: 5px;
+	outline: none;
+	cursor: pointer;
+    width: 100%;
+    padding: 12px 0px;
+    outline: none;
+    border: none;
+    margin: 15px 0px;
+    font-size: 1.1rem;
+}
+.input{
+    width: 100%;
+    font-size: 1.1rem;
+}
+.fileInput{
+    display: none;
+}
+.requestFileBtn{
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.8rem 1.8rem;
+    background-image: linear-gradient(#538cff, #2a71ff);
+    border: none;
+    outline: none;
+    border-radius: 0.4rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+    transition: all 0.5s ease;
+    margin-bottom: 2rem;
+}
+
+.requestFileBtn:hover{
+    background-image: linear-gradient(#538cff, #1c68ff);
+    transform: scale(1.02);
+}
+
+@media only screen and (max-width: 850px) {
+    .docCardHeader{
+        font-size: 0.9rem;
+    }
+    
+    .docCard{
+        font-size: 0.9rem;
+    }
+
+    .inputContainer {
+        width: 80%;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .dashboardBox{
+        width: 90%;
+    }
+
+    .key, .name{
+        font-size: 0.95rem;
+    }
+
+    .inputContainer {
+        width: 100%;
+    }
+}

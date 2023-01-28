@@ -1,0 +1,54 @@
+.navbar{
+    width: 100%;
+    background-image: linear-gradient(#d9c1ff, #ffffff00);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.navbarContainer{
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logoContainer{
+    font-size: 1.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.logoImg{
+    height: 3rem;
+    margin-right: 0.4rem;
+}
+
+.accountIcon{
+    width: 2.2rem;
+    height: 2.2rem;
+    
+}
+.avatar{
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: #1363FD;
+    border-radius: 50%;
+    transition: all 0.5s ease;
+}
+
+.avatar:hover{
+    transform: translateY(-3px) rotateZ(-5deg) scale(1.05);
+
+}
+
+@media only screen and (max-width: 500px) {
+    .navbarContainer{
+        width: 90%;
+    }
+}

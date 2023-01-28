@@ -1,0 +1,119 @@
+.productPageContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.productPageContent{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.detailsBox{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    font-size: 1.1rem;
+    padding: 10px;
+}
+
+.detailsBoxContent{
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 1.5rem;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.key{
+    display: flex;
+}
+
+.heading{
+    font-size: 25px;
+	font-weight: 700;
+	width: 100%;
+	color: #555;
+	margin-bottom: 20px;
+    text-align: center;
+}
+
+.name{
+    color: #981EF8;
+    display: flex;
+    justify-content: start;
+    font-weight: bold;
+    text-overflow: ellipsis;
+}
+
+.accountName{
+    color: #981EF8;
+}
+
+.detailsHeading{
+    font-size: 20px;
+	font-weight: 700;
+	color: #555;
+	margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+    border-bottom: 2px solid #981EF8;
+    padding: 10px 0px;
+}
+
+.genCodeContent{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputContainer {
+    display: grid;
+    grid-template-columns: max-content min-content;
+}
+
+.inputLabel {
+    font-size: 1.1rem;
+    color: #555;
+    font-weight: 600;
+    padding: 20px 10px;
+    display: flex;
+}
+
+.input {
+    padding: 12px 0px;
+    outline: none;
+    border: none;
+    margin: 10px;
+    font-size: 1.1rem;
+    border-bottom: 1px #525252 solid;
+}
+
+.genCodesBtn{
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.8rem 1.8rem;
+    background-image: linear-gradient(#ac3fff, #981EF8);
+    border: none;
+    outline: none;
+    border-radius: 0.4rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+    transition: all 0.5s ease;
+}
+
+.genCodesBtn:hover{
+    background-image: linear-gradient(#ac3fff, #860fe1);
+    transform: scale(1.02);
+}
