@@ -226,7 +226,7 @@ export const SafeBuyProvider = ({ children }) => {
 
 	const buyProduct = async (contractAddress, privateKey, tokenURI) => {
 		const contract = await connectingWithCompanyNFT(contractAddress);
-		await contract.fetchProdutById(privateKey, tokenURI);
+		await contract.buyProduct(privateKey, tokenURI);
 	};
 
 	const checkState = async (contractAddress, pubKey) => {

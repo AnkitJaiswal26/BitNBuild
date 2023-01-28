@@ -12,10 +12,26 @@ const BuyPage = () => {
     checkIfWalletConnected();
   }, []);
 
-  const { fetchActiveRequests, acceptCompany, rejectCompany } =
+  const { buyProduct, fetchProductItemById } =
     useSafeBuyContext();
 
-  const checkProduct = () => {};
+  const fetchProductItem = useCallback(async() =>{
+    try{
+        const data = await fetchProductItemById();
+    }catch(err){
+        console.log(err);
+    }
+  })
+
+  const checkProduct = useCallback (async() => {
+    try{
+        await buyProduct(currentAccount, "0x5506f75ffC8fA955f9A1FF14DD197606e62c8158", "0x5506f75ffC8fA955f9A1FF14DD197606e62c8158");
+        // (contractAddress, privateKey, tokenURI)
+        console.log("Product purchased and Private Key verified")
+    }catch(err){
+        console.log(err);
+    }
+  });
 
   return (
     <div className={styles.verifyPageContainer}>
