@@ -108,11 +108,6 @@ const ProductPage = () => {
 			validities
 		);
 
-		const worksheet = xlsx.utils.json_to_sheet(codesURLList);
-		const workbook = xlsx.utils.book_new();
-  		xlsx.utils.book_append_sheet(workbook, worksheet, "Codes URL");
-		xlsx.writeFile(workbook, "codes.xlsx");
-
 		await addBulkProducts(
 			companyNFTAdd,
 			productId,
@@ -123,6 +118,11 @@ const ProductPage = () => {
 			tokenURI,
 			validities
 		);
+
+		const worksheet = xlsx.utils.json_to_sheet(codesURLList);
+		const workbook = xlsx.utils.book_new();
+  		xlsx.utils.book_append_sheet(workbook, worksheet, "Codes URL");
+		xlsx.writeFile(workbook, `codes-${productId}.xlsx`);
 
 	};
 
