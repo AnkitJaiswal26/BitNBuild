@@ -3127,6 +3127,11 @@
   dependencies:
     "defer-to-connect" "^2.0.1"
 
+"@tableland/evm@^4.0.0":
+  "integrity" "sha512-HftJLfg2x2R/f6l6PasrQ73Za071+2T6vmJV+p5PwPtXjlb5Pl+V7rtNWAIZgWE8cQY14lWUyhzw4P/+rrEcGA=="
+  "resolved" "https://registry.npmjs.org/@tableland/evm/-/evm-4.0.0.tgz"
+  "version" "4.0.0"
+
 "@testing-library/dom@^8.5.0", "@testing-library/dom@>=7.21.4":
   "integrity" "sha512-d9ULIT+a4EXLX3UU8FBjauG9NnsZHkHztXoIcTsOKoOw030fyjheN9svkTULjJxtYag9DZz5Jz5qkWZDPxTFwA=="
   "resolved" "https://registry.npmjs.org/@testing-library/dom/-/dom-8.20.0.tgz"
