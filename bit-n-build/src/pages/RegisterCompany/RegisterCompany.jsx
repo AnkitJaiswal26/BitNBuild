@@ -42,16 +42,9 @@ const Register = () => {
 
 	const fetchUser = useCallback(async () => {
 		try {
-			const user = await fetchUserByAddress(currentAccount);
-			console.log(user);
-			if (user.name !== "") {
+			const company = await fetchCompanyByAddress(currentAccount);
+			if (company.cin !== "") {
 				navigate("/");
-			} else {
-				const company = await fetchCompanyByAddress(currentAccount);
-				console.log(company);
-				if (company.cin !== "") {
-					navigate("/");
-				}
 			}
 		} catch (err) {}
 	});
