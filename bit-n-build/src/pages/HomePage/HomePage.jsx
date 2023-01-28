@@ -13,7 +13,12 @@ const HomePage = () => {
 
     const navigate = useNavigate();
 
-    const navigateToRegisterPage = () => {}
+    const navigateToUserRegisterPage = () => {
+        navigate("/register");
+    }
+    const navigateToCompanyRegisterPage = () => {
+        navigate("/registerCompany");
+    }
 
     return (
         <div className={styles.homePageContainer}>
@@ -28,11 +33,11 @@ const HomePage = () => {
                 <span>Building a secure & efficient solution<br />
         for Certificate Verification</span>
                 <div className={styles.heroBtnContainer}>
-                    <button onClick={navigateToRegisterPage} className={`${styles.registerBtn} ${styles.userBtn}`}>
+                    <button onClick={navigateToUserRegisterPage} className={`${styles.registerBtn} ${styles.userBtn}`}>
                         <PersonIcon className={styles.btnIcon} />
                         User
                     </button>
-                    <button onClick={navigateToRegisterPage} className={styles.registerBtn}>
+                    <button onClick={navigateToCompanyRegisterPage} className={styles.registerBtn}>
                         <CorporateFareIcon className={styles.btnIcon} />
                         Company
                     </button>
