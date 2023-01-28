@@ -4,6 +4,7 @@ import { useAuth } from "../../Context/AuthContext";
 import { useSafeBuyContext } from "../../Context/SafeBuyContext";
 import styles from "./ProductPage.module.css";
 import { v4 as uuidv4 } from "uuid";
+import * as xlsx from "xlsx";
 
 const ProductPage = () => {
 	const navigate = useNavigate();
@@ -35,7 +36,8 @@ const ProductPage = () => {
 			const compNFTAdd = await fetchCompanyNFTAddress(company.comAdd);
 			setCompanyNFTAdd(compNFTAdd);
 		} catch (err) {
-			navigate("/registerCompany");
+			console.log(err);
+			// navigate("/registerCompany");
 		}
 	});
 
@@ -77,14 +79,22 @@ const ProductPage = () => {
 
 		console.log("Hello");
 
+		const codesURLList = [];
+
 		for (let i = 0; i < codesQuantity; i++) {
 			console.log("Hello");
-			pubKeys.push(uuidv4());
-			privateKeys.push(uuidv4());
+			const publicKey = uuidv4();
+			const privateKey = uuidv4();
+			pubKeys.push(publicKey);
+			privateKeys.push(privateKey);
 			tokenURI.push("");
 			validities.push(validity);
 			manuDates.push(manufDate);
 			expDates.push(expiryDate);
+			codesURLList.push({
+				publicURL: `http://localhost:3000/verify/${compData.comAdd}/${publicKey}`,
+				privateURL: `http://localhost:3000/buy/${compData.comAdd}/${privateKey}`
+			});
 		}
 
 		console.log(
@@ -108,6 +118,12 @@ const ProductPage = () => {
 			tokenURI,
 			validities
 		);
+
+		const worksheet = xlsx.utils.json_to_sheet(codesURLList);
+		const workbook = xlsx.utils.book_new();
+  		xlsx.utils.book_append_sheet(workbook, worksheet, "Codes URL");
+		xlsx.writeFile(workbook, `codes-${productId}.xlsx`);
+
 	};
 
 	const [codesQuantity, setCodesQuantity] = useState(0);
