@@ -117,7 +117,7 @@ const Admin = () => {
                           ? `${styles.docCard} ${styles.evenDocCard}`
                           : `${styles.docCard} ${styles.oddDocCard}`
                       }
-                      id={index}
+                      key={index}
                     >
                       <span className={styles.docCardContent}>{item.name}</span>
                       <span className={styles.docCardContent}>{item.cin}</span>

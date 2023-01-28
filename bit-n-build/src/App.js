@@ -77,7 +77,7 @@ const App = () => {
       ),
     },
     {
-      path: "/buy/:id",
+      path: "/buy/:addr/:id",
       element: (
         <>
           <Navbar />

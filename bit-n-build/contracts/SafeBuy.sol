@@ -183,9 +183,9 @@ contract SafeBuy {
         revert();
     }
 
-    function fetchCompanyNFTAddress() public view returns (address) {
+    function fetchCompanyNFTAddress(address companyAddr) public view returns (address) {
         return
-            address(companyNFTMapping[companyAddressToIdMapping[msg.sender]]);
+            address(companyNFTMapping[companyAddressToIdMapping[companyAddr]]);
     }
 
     function OwnerIs() public view returns (bool) {
