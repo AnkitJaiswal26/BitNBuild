@@ -14,27 +14,46 @@ const Admin = () => {
   const navigate = useNavigate();
   const { checkIfWalletConnected, currentAccount } = useAuth();
 
+  const [requests, setRequests] = useState([]);
+  const [owner, setIsOwner] = useState(false);
+
+  const { fetchActiveRequests, acceptCompany, rejectCompany, isOwnerAddress } =
+    useSafeBuyContext();
+
+  const fetchAdmin = useCallback(async () => {
+    try {
+      const owner = await isOwnerAddress();
+      console.log(owner);
+      setIsOwner(owner);
+    } catch (err) {
+      console.log(err);
+      navigate("/register");
+    }
+  });
+
+  useEffect(() => {
+    console.log(currentAccount);
+    if (currentAccount !== "") fetchAdmin();
+  }, [currentAccount]);
+
   useEffect(() => {
     checkIfWalletConnected();
     fetchRequests();
   }, []);
 
-  const [requests, setRequests] = useState([]);
-  const { fetchActiveRequests, acceptCompany, rejectCompany } =
-    useSafeBuyContext();
-
-  const fetchRequests = useCallback( async (e) => {
-    console.log("Hello Admin :)");
-    e.preventDefault();
-    try {
-      const data = await fetchActiveRequests();
-      setRequests(data);
-    } catch (err) {
-      console.log(err);
+  const fetchRequests = useCallback(async () => {
+    if (owner) {
+      console.log("Hello Admin :)");
+      try {
+        const data = await fetchActiveRequests();
+        setRequests(data);
+      } catch (err) {
+        console.log(err);
+      }
     }
   });
 
-  const acceptComp = useCallback( async (e, comAdd) => {
+  const acceptComp = useCallback(async (e, comAdd) => {
     console.log("Hello verifier, accept me :)");
     e.preventDefault();
     try {
@@ -45,7 +64,7 @@ const Admin = () => {
     }
   });
 
-  const rejectComp = useCallback( async (e, comAdd) => {
+  const rejectComp = useCallback(async (e, comAdd) => {
     console.log("Hello verifier, reject me :(");
     e.preventDefault();
     try {
@@ -100,6 +119,7 @@ const Admin = () => {
                           ? `${styles.docCard} ${styles.evenDocCard}`
                           : `${styles.docCard} ${styles.oddDocCard}`
                       }
+                      id={index}
                     >
                       <span className={styles.docCardContent}>{item.name}</span>
                       <span className={styles.docCardContent}>{item.cin}</span>
