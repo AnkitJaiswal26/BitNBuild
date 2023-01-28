@@ -1,12 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styles from "./RegisterCompany.module.css";
 import { useNavigate } from "react-router-dom";
-// import { useCVPContext } from "../../Context/CVPContext";
-// import { useAuth } from "../../Context/AuthContext";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-//import { authenticator } from "otplib";
 import Modal from "react-modal";
-//import axios from "../../helpers/axios";
 import CloseIcon from "@mui/icons-material/Close";
 import MoonLoader from "react-spinners/MoonLoader";
 import { useSafeBuyContext } from "../../Context/SafeBuyContext";
@@ -37,21 +33,13 @@ const Register = () => {
 		checkIfWalletConnected();
 	}, [currentAccount]);
 
-	const { registerCompany, fetchUserByAddress, fetchCompanyByAddress } =
-		useSafeBuyContext();
+	const { registerCompany, fetchCompanyByAddress } = useSafeBuyContext();
 
 	const fetchUser = useCallback(async () => {
 		try {
-			const user = await fetchUserByAddress(currentAccount);
-			console.log(user);
-			if (user.name !== "") {
-				navigate("/");
-			} else {
-				const company = await fetchCompanyByAddress(currentAccount);
-				console.log(company);
-				if (company.cin !== "") {
-					navigate("/");
-				}
+			const company = await fetchCompanyByAddress(currentAccount);
+			if (company.cin !== "") {
+				navigate("/companyDashboard");
 			}
 		} catch (err) {}
 	});

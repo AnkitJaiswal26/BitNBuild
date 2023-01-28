@@ -1,0 +1,152 @@
+.homePageContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    align-items: center;
+}
+
+.heroSection{
+    width: 100%;
+    height: 85vh;
+    background-size: cover;
+    background-position: bottom;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.logoSection{
+    display: flex;
+    font-size: 3rem;
+    color: white;
+    font-weight: bold;
+    align-items: center;
+}
+
+.logoImg{
+    height: 6rem;
+    margin-right: 1rem;
+}
+
+.descSection{
+    display: flex;
+    flex-direction: column;
+    font-size: 3rem;
+    font-weight: bold;
+    color: #981EF8;
+    text-align: center;
+    align-items: center;
+}
+
+.heroBtnContainer{
+    display: flex;
+}
+
+.btnIcon{
+    margin-right: 0.5rem;
+}
+
+.registerBtn{
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.8rem 1.8rem;
+    background-image: linear-gradient(white, #E8CBFF);
+    border: none;
+    outline: none;
+    border-radius: 0.4rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #981EF8;
+    transition: all 0.5s ease;
+}
+
+.registerBtn:hover{
+    background-image: linear-gradient(white, #e2beff);
+    transform: scale(1.02);
+}
+
+.userBtn{
+    margin-right: 1rem;
+}
+
+.arrowForwardIcon{
+    margin-left: 0.5rem;
+}
+
+.downArrow{
+    color: white;
+    font-size: 1.5rem;
+}
+
+.sectionHeader{
+    margin-top: 2rem;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #981EF8;
+}
+
+.infoContainer{
+    width: 80%;
+    padding: 4rem 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.infoCard{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #1363FD;
+}
+
+.infoImage{
+    width: 200px;
+    margin-bottom: 1rem;
+}
+
+@media only screen and (max-width: 850px) {
+    .logoSection{
+        font-size: 2rem;
+    }
+    
+    .logoImg{
+        width: 80px;
+        margin-right: 1rem;
+    }
+
+    .descSection{
+        font-size: 2rem;
+    }
+
+    .infoContainer{
+        flex-direction: column;
+
+    }
+
+    .infoCard{
+        margin-bottom: 2rem;
+    }
+
+}
+
+@media only screen and (max-width: 500px) {
+    .logoSection{
+        font-size: 2rem;
+    }
+    
+    .logoImg{
+        height: 8rem;
+    }
+
+    .descSection{
+        font-size: 1.2rem;
+    }
+}

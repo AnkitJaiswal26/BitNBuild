@@ -141,9 +141,9 @@ export const SafeBuyProvider = ({ children }) => {
 		const company = await contract.fetchCompanyUsingCIN(cin);
 		return company;
 	};
-	const fetchCompanyNFTAddress = async (companyId) => {
+	const fetchCompanyNFTAddress = async () => {
 		const contract = await connectingWithSmartContract();
-		const company = await contract.fetchCompanyNFTAddress(companyId);
+		const company = await contract.fetchCompanyNFTAddress();
 		return company;
 	};
 
@@ -252,6 +252,20 @@ export const SafeBuyProvider = ({ children }) => {
 		const data = await contract.fetchAllItems();
 		return data;
 	};
+
+	const fetchAllProducts = async (contractAddress) => {
+		const contract = await connectingWithCompanyNFT(contractAddress);
+		const data = await contract.fetchAllProducts();
+		return data;
+	};
+
+	const isOwnerAddress = async () => {
+		const contract = await connectingWithSmartContract();
+		const data = await contract.OwnerIs();
+		console.log(data);
+		return data;
+	};
+
 	return (
 		<SafeBuyContext.Provider
 			value={{
@@ -278,6 +292,8 @@ export const SafeBuyProvider = ({ children }) => {
 				buyProduct,
 				checkState,
 				checkIfAlreadyPurchased,
+				fetchAllProducts,
+				isOwnerAddress,
 			}}
 		>
 			{children}

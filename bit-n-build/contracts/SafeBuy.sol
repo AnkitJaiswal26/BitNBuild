@@ -183,9 +183,12 @@ contract SafeBuy {
         revert();
     }
 
-    function fetchCompanyNFTAddress(
-        uint256 companyId
-    ) public view returns (address) {
-        return address(companyNFTMapping[companyId]);
+    function fetchCompanyNFTAddress() public view returns (address) {
+        return
+            address(companyNFTMapping[companyAddressToIdMapping[msg.sender]]);
+    }
+
+    function OwnerIs() public view returns (bool) {
+        return owner == msg.sender;
     }
 }
