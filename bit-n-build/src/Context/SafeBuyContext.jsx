@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import { ethers } from "ethers";
 import Wenb3Model from "web3modal";
-import { activeChainId, SafeBuyABI, SafeBuyAddress } from "./constants";
+import {
+	activeChainId,
+	SafeBuyABI,
+	SafeBuyAddress,
+	CompanyNFTABI,
+} from "./constants";
 import SmartAccount from "@biconomy/smart-account";
 import { ChainId } from "@biconomy/core-types";
 import { useAuth } from "./AuthContext";
@@ -9,6 +14,9 @@ import { Web3Storage } from "web3.storage";
 
 const fetchContract = (signerOrProvider) =>
   new ethers.Contract(SafeBuyAddress, SafeBuyABI, signerOrProvider);
+
+const fetchCompanyNFT = (contractAddress, signerOrProvider) =>
+	new ethers.Contract(contractAddress, CompanyNFTABI, signerOrProvider);
 
 const options = {
   activeNetworkId: ChainId.POLYGON_MUMBAI,
@@ -48,27 +56,40 @@ export const SafeBuyProvider = ({ children }) => {
     }
   };
 
-  const registerUser = async (
-    userAdd,
-    name,
-    emailId,
-    mobileNo,
-    gender,
-    age
-  ) => {
-    const contract = await connectingWithSmartContract();
-    if (currentAccount) {
-      const user = await contract.registerUser(
-        userAdd,
-        name,
-        emailId,
-        mobileNo,
-        gender,
-        age
-      );
-      console.log(user);
-    }
-  };
+	const connectingWithCompanyNFT = async (contractAddress) => {
+		try {
+			const web3Modal = new Wenb3Model();
+			const connection = await web3Modal.connect();
+			const provider = new ethers.providers.Web3Provider(connection);
+			const signer = provider.getSigner();
+			const contract = fetchCompanyNFT(contractAddress, signer);
+			return contract;
+		} catch (error) {
+			console.log("Something went wrong while connecting with contract!");
+		}
+	};
+
+	const registerUser = async (
+		userAdd,
+		name,
+		emailId,
+		mobileNo,
+		gender,
+		age
+	) => {
+		const contract = await connectingWithSmartContract();
+		if (currentAccount) {
+			const user = await contract.registerUser(
+				userAdd,
+				name,
+				emailId,
+				mobileNo,
+				gender,
+				age
+			);
+			console.log(user);
+		}
+	};
 
   const registerCompany = async (comAdd, name, cin) => {
     const contract = await connectingWithSmartContract();

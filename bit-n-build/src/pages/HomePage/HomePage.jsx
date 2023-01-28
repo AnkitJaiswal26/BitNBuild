@@ -7,10 +7,13 @@ const HomePage = () => {
 
     return (
         <div>
-            This is home page
+            This is Home Page
             <button onClick={() => {
                 navigate("/register");
-            }}>Register</button>
+            }}>Register as User</button>
+            <button onClick={() => {
+                navigate("/registerCompany");
+            }}>Register as Company</button>
         </div>
     );
 }
