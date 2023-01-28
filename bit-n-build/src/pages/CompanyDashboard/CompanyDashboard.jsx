@@ -5,8 +5,20 @@ import { useCallback, useState, useEffect, useRef } from "react";
 import MoonLoader from "react-spinners/MoonLoader";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+import Modal from "react-modal";
 import { useSafeBuyContext } from "../../Context/SafeBuyContext";
 import { useAuth } from "../../Context/AuthContext";
+
+const customStyles = {
+	content: {
+		top: "50%",
+		left: "50%",
+		right: "auto",
+		bottom: "auto",
+		marginRight: "-50%",
+		transform: "translate(-50%, -50%)",
+	},
+};
 
 const CompanyDashboard = () => {
 	const navigate = useNavigate();
@@ -24,6 +36,7 @@ const CompanyDashboard = () => {
 		fetchCompanyNFTAddress,
 		fetchAllProductItemsByProductId,
 		fetchAllProducts,
+		addProduct,
 	} = useSafeBuyContext();
 
 	const fetchUser = useCallback(async () => {
@@ -34,18 +47,30 @@ const CompanyDashboard = () => {
 			const compNFTAdd = await fetchCompanyNFTAddress();
 			setCompanyNFTAdd(compNFTAdd);
 		} catch (err) {
-			navigate("/registerCompany");
+			// navigate("/registerCompany");
+			console.log(err);
 		}
 	});
 
+	useEffect(() => {
+		if (currentAccount) fetchUser();
+	}, [currentAccount]);
+
+	const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
+	const [productNameInModal, setProductNameInModal] = useState("");
+	const [productPriceInModal, setProductPriceInModal] = useState("");
+
 	const fetchProducts = useCallback(async () => {
 		const result = await fetchAllProducts(companyNFTAdd);
+		console.log(result);
 		var res = [];
 		for (let i = 0; i < result.length; i++) {
 			const data = await fetchAllProductItemsByProductId(
 				companyNFTAdd,
-				res.productId
+				result[i].productId
 			);
+
+			console.log(data);
 
 			res.push({
 				name: result[i].name,
@@ -77,18 +102,75 @@ const CompanyDashboard = () => {
 			codesGen: 2046,
 		},
 	]);
-	const requests = [];
-	const requestType = "Update";
+
+	const closeAddProductModal = () => {
+		setIsAddProductModalOpen(false);
+	};
+
+	const openAddProductModal = () => {
+		setIsAddProductModalOpen(true);
+	};
+
+	const handleAddProduct = async (e) => {
+		e.preventDefault();
+		try {
+			await addProduct(
+				companyNFTAdd,
+				productNameInModal,
+				productPriceInModal
+			);
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	return (
 		<>
 			<ToastContainer />
+			<Modal
+				isOpen={isAddProductModalOpen}
+				onRequestClose={closeAddProductModal}
+				style={customStyles}
+				contentLabel="Example Modal"
+			>
+				<div>
+					<button onClick={closeAddProductModal}>close</button>
+
+					<div className={`${styles.inputContainer}`}>
+						<label className={`${styles.inputLabel}`}>
+							Product Name
+						</label>
+						<input
+							className={`${styles.input}`}
+							type="text"
+							onChange={(e) =>
+								setProductNameInModal(e.target.value)
+							}
+							value={productNameInModal}
+						/>
+					</div>
+					<div className={`${styles.inputContainer}`}>
+						<label className={`${styles.inputLabel}`}>
+							Product Price
+						</label>
+						<input
+							className={`${styles.input}`}
+							type="text"
+							onChange={(e) =>
+								setProductPriceInModal(e.target.value)
+							}
+							value={productPriceInModal}
+						/>
+					</div>
+
+					<button onClick={handleAddProduct}>Add Product</button>
+				</div>
+			</Modal>
 			<div className={styles.companyDashboardContainer}>
 				<div className={styles.dashboardBox}>
 					<div className={styles.heading}>
 						Welcome <span className={styles.accountName}>boAt</span>
 					</div>
-
 					<div className={styles.detailsBox}>
 						<span className={styles.detailsHeading}>
 							Company Details
@@ -118,7 +200,10 @@ const CompanyDashboard = () => {
 								<button className={styles.viewAllBtn}>
 									View All
 								</button>
-								<button className={styles.addProductBtn}>
+								<button
+									onClick={openAddProductModal}
+									className={styles.addProductBtn}
+								>
 									Add Product
 								</button>
 							</div>
@@ -142,6 +227,9 @@ const CompanyDashboard = () => {
 													: `${styles.docCard} ${styles.oddDocCard}`
 											}
 											onClick={() => {
+												navigate(
+													`/product/${item.productId}`
+												);
 												//   openDocPage(item.file.cid, item.file.fileName);
 											}}
 										>
