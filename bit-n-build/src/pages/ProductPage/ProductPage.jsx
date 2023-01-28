@@ -24,7 +24,7 @@ const ProductPage = () => {
 		fetchCompanyByAddress,
 		fetchCompanyNFTAddress,
 		fetchAllProductItemsByProductId,
-		fetchProdutById,
+		fetchProductById,
 		addBulkProducts,
 	} = useSafeBuyContext();
 
@@ -33,7 +33,7 @@ const ProductPage = () => {
 			const company = await fetchCompanyByAddress(currentAccount);
 			setCompData(company);
 
-			const compNFTAdd = await fetchCompanyNFTAddress();
+			const compNFTAdd = await fetchCompanyNFTAddress(company.comAdd);
 			setCompanyNFTAdd(compNFTAdd);
 		} catch (err) {
 			console.log(err);
@@ -43,7 +43,7 @@ const ProductPage = () => {
 
 	const fetchProducts = useCallback(async () => {
 		const productId = window.location.pathname.split("/")[2];
-		const result = await fetchProdutById(
+		const result = await fetchProductById(
 			companyNFTAdd,
 			parseInt(productId)
 		);
