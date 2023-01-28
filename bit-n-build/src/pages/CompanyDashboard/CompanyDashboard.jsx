@@ -5,10 +5,23 @@ import { useCallback, useState, useEffect, useRef } from "react";
 import MoonLoader from "react-spinners/MoonLoader";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+import { Modal } from "@mui/material";
+
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+};
 
 const CompanyDashboard = () => {
   const navigate = useNavigate();
 
+  const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
     const products = [
         {
             name: "Airdopes 121 v2",
@@ -26,9 +39,34 @@ const CompanyDashboard = () => {
     const requests = [];
     const requestType = "Update"
 
+    const closeAddProductModal = () => {
+      setIsAddProductModalOpen(false);
+    }
+
+    const openAddProductModal = () => {
+      setIsAddProductModalOpen(true);
+    }
+
   return (
     <>
       <ToastContainer />
+      <Modal
+        isOpen={isAddProductModalOpen}
+        onRequestClose={closeAddProductModal}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        {/* <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Hello</h2> */}
+        <button onClick={closeAddProductModal}>close</button>
+        <div>I am a modal</div>
+        <form>
+          <input />
+          <button>tab navigation</button>
+          <button>stays</button>
+          <button>inside</button>
+          <button>the modal</button>
+        </form>
+      </Modal>
         <div className={styles.companyDashboardContainer}>
           <div className={styles.dashboardBox}>
             <div className={styles.heading}>
@@ -55,7 +93,7 @@ const CompanyDashboard = () => {
                 <span>Products</span>
                 <div>
                     <button className={styles.viewAllBtn}>View All</button>
-                    <button className={styles.addProductBtn}>Add Product</button>
+                    <button onClick={openAddProductModal} className={styles.addProductBtn}>Add Product</button>
                 </div>
               </div>
               {products.length > 0 ? (
