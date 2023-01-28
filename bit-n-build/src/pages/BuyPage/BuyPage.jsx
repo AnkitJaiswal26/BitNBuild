@@ -34,10 +34,17 @@ const BuyPage = () => {
       console.log(companyAddress, "aa", companyNFTAddress);
 
       const data = await fetchProductItemById(companyNFTAddress, id);
-      console.log("data", data)
-      
-      const product = await fetchProductById(companyNFTAddress, data.productId);
-      const company = await fetchCompanyByAddress(companyNFTAddress, data.company);
+      console.log("data", data.productId.toNumber());
+
+      const product = await fetchProductById(
+        companyNFTAddress,
+        data.productId.toNumber()
+      );
+      console.log("product", product);
+
+      const company = await fetchCompanyByAddress(companyAddress);
+      console.log("company", company);
+
       var productItem = [
         {
           productName: product.name,
@@ -48,7 +55,7 @@ const BuyPage = () => {
         },
       ];
       setProduct(productItem);
-      console.log("data", data);
+      console.log("data", productItem);
     } catch (err) {
       console.log(err);
     }
@@ -71,31 +78,33 @@ const BuyPage = () => {
   return (
     <div className={styles.verifyPageContainer}>
       {product.map((item, index) => {
-        <div className={styles.verifyContainer}>
-          <span className={styles.verifyDetails}>
-            Product Name:{" "}
-            <span className={styles.detailsContent}>item.productName</span>
-          </span>
-          <span className={styles.verifyDetails}>
-            Company:{" "}
-            <span className={styles.detailsContent}>item.companyName</span>
-          </span>
-          <span className={styles.verifyDetails}>
-            Company Identification Number:{" "}
-            <span className={styles.detailsContent}>item.cin</span>
-          </span>
-          <span className={styles.verifyDetails}>
-            Manufacture Date:{" "}
-            <span className={styles.detailsContent}>item.man_date</span>
-          </span>
-          <span className={styles.verifyDetails}>
-            Expiry Date:{" "}
-            <span className={styles.detailsContent}>item.ex_date</span>
-          </span>
-          <button onClick={checkProduct} className={styles.checkProductBtn}>
-            Buy Product
-          </button>
-        </div>;
+        return (
+          <div className={styles.verifyContainer} key={index}>
+            <span className={styles.verifyDetails}>
+              Product Name:{" "}
+              <span className={styles.detailsContent}>{item.productName}</span>
+            </span>
+            <span className={styles.verifyDetails}>
+              Company:{" "}
+              <span className={styles.detailsContent}>{item.companyName}</span>
+            </span>
+            <span className={styles.verifyDetails}>
+              Company Identification Number:{" "}
+              <span className={styles.detailsContent}>{item.cin}</span>
+            </span>
+            <span className={styles.verifyDetails}>
+              Manufacture Date:{" "}
+              <span className={styles.detailsContent}>{item.man_date}</span>
+            </span>
+            <span className={styles.verifyDetails}>
+              Expiry Date:{" "}
+              <span className={styles.detailsContent}>{item.ex_date}</span>
+            </span>
+            <button onClick={checkProduct} className={styles.checkProductBtn}>
+              Buy Product
+            </button>
+          </div>
+        );
       })}
     </div>
   );
