@@ -89,7 +89,7 @@ export const SafeBuyProvider = ({ children }) => {
 		console.log(smartAccount);
 		console.log("--------------------------------------------------------");
 
-		const data = contract.interface.encodeFunctionData("registerStudent", [
+		const data = contract.interface.encodeFunctionData("registerUser", [
 			userAdd,
 			name,
 			emailId,
