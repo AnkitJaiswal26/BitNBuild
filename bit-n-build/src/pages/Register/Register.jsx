@@ -27,7 +27,7 @@ const Register = () => {
 	//BNB
 	const [name, setName] = useState("");
 	const [age, setAge] = useState(0);
-	const [gender, setGender] = useState(false);
+	const [gender, setGender] = useState("Male");
 
 	const [mobileNo, setMobileNo] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
@@ -72,7 +72,7 @@ const Register = () => {
 					name,
 					email,
 					mobileNo,
-					gender,
+					true,
 					age
 				);
 				toast.success("User registered successfully");
@@ -143,8 +143,9 @@ const Register = () => {
 							className={`${styles.input}`}
 							onChange={(e) => setGender(e.target.value)}
 						>
-							<option value={true}>Male</option>
-							<option value={false}>Female</option>
+							<option value={"Male"}>Male</option>
+							<option value={"Female"}>Female</option>
+							<option value={"Other"}>Other</option>
 							{/* <option>Others</option> */}
 						</select>
 					</div>
