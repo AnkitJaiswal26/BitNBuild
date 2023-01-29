@@ -78,17 +78,35 @@ export const SafeBuyProvider = ({ children }) => {
 		age
 	) => {
 		const contract = await connectingWithSmartContract();
-		if (currentAccount) {
-			const user = await contract.registerUser(
-				userAdd,
-				name,
-				emailId,
-				mobileNo,
-				gender,
-				age
-			);
-			console.log(user);
-		}
+
+		const web3Modal = new Wenb3Model();
+		const connection = await web3Modal.connect();
+		const provider = new ethers.providers.Web3Provider(connection);
+		let smartAccount = new SmartAccount(provider, options);
+		smartAccount = await smartAccount.init();
+
+		console.log("--------------------------------------------------------");
+		console.log(smartAccount);
+		console.log("--------------------------------------------------------");
+
+		const data = contract.interface.encodeFunctionData("registerUser", [
+			userAdd,
+			name,
+			emailId,
+			mobileNo,
+			gender,
+			age,
+		]);
+
+		const tx1 = {
+			to: SafeBuyAddress,
+			data,
+		};
+
+		const txResponse = await smartAccount.sendGaslessTransaction({
+			transaction: tx1,
+		});
+		console.log(txResponse);
 	};
 
 	const registerCompany = async (comAdd, name, cin) => {
@@ -248,7 +266,31 @@ export const SafeBuyProvider = ({ children }) => {
 
 	const buyProduct = async (contractAddress, privateKey, tokenURI) => {
 		const contract = await connectingWithCompanyNFT(contractAddress);
-		await contract.buyProduct(privateKey, tokenURI);
+
+		const web3Modal = new Wenb3Model();
+		const connection = await web3Modal.connect();
+		const provider = new ethers.providers.Web3Provider(connection);
+		let smartAccount = new SmartAccount(provider, options);
+		smartAccount = await smartAccount.init();
+
+		console.log("--------------------------------------------------------");
+		console.log(smartAccount);
+		console.log("--------------------------------------------------------");
+
+		const data = contract.interface.encodeFunctionData("buyProduct", [
+			privateKey,
+			tokenURI,
+		]);
+
+		const tx1 = {
+			to: SafeBuyAddress,
+			data,
+		};
+
+		const txResponse = await smartAccount.sendGaslessTransaction({
+			transaction: tx1,
+		});
+		console.log(txResponse);
 	};
 
 	const checkState = async (contractAddress, pubKey) => {

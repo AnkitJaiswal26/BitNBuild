@@ -74,29 +74,6 @@ contract CompanyNFT is ERC721URIStorage {
         );
     }
 
-    // function addProductItem(
-    //     uint256 productId,
-    //     string memory man_date,
-    //     string memory ex_date,
-    //     string memory pubKey,
-    //     string memory privateKey
-    // ) public {
-    //     productItemMapping[itemCount] = ProductItem(
-    //         productId,
-    //         itemCount,
-    //         man_date,
-    //         ex_date,
-    //         false,
-    //         address(0),
-    //         pubKey,
-    //         privateKey
-    //     );
-    //     privateKeyToProductItemMapping[privateKey] = itemCount;
-    //     pubKeyToPrivateKeyMapping[pubKey] = privateKey;
-
-    //     itemCount++;
-    // }
-
     function fetchCompanyDetails()
         public
         view
@@ -226,11 +203,11 @@ contract CompanyNFT is ERC721URIStorage {
     }
 
     function growNFT(uint256 tokenId, string memory tokenURI) private {
-        require(id_to_currentURI[tokenId] < 2, "It id impossible to grow more");
-
-        uint256 current_uri = id_to_currentURI[tokenId] + 1;
+        require(id_to_currentURI[tokenId] < 1, "It id impossible to grow more");
 
         _setTokenURI(tokenId, tokenURI);
+
+        productItemsMapping[tokenId].cid = tokenURI;
         id_to_currentURI[tokenId] += 1;
     }
 
@@ -241,7 +218,7 @@ contract CompanyNFT is ERC721URIStorage {
         productItemsMapping[privateKeyToProductItemMapping[privateKey]]
             .isPurchased = true;
         productItemsMapping[privateKeyToProductItemMapping[privateKey]]
-            .owner = msg.sender;
+            .owner = _msgSender();
         productItemsMapping[privateKeyToProductItemMapping[privateKey]]
             .purchasedAt = block.timestamp;
 
