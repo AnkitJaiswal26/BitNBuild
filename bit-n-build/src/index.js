@@ -6,6 +6,7 @@ import "@biconomy/web3-auth/dist/src/style.css";
 
 import { AuthContextProvider } from "./Context/AuthContext";
 import { SafeBuyProvider } from "./Context/SafeBuyContext";
+import "react-toastify/dist/ReactToastify.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
