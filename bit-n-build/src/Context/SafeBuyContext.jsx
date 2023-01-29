@@ -340,9 +340,16 @@ export const SafeBuyProvider = ({ children }) => {
 		}
 	};
 
+	const fetchAllCompaniesNFT = async () => {
+		const contract = await connectingWithSmartContract();
+		const data = await contract.fetchAllCompaniesNFT();
+		return data;
+	};
+
 	return (
 		<SafeBuyContext.Provider
 			value={{
+				fetchAllCompaniesNFT,
 				connectingWithSmartContract,
 				fetchUserByAddress,
 				registerUser,

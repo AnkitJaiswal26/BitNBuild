@@ -170,6 +170,16 @@ contract SafeBuy {
         return result;
     }
 
+    function fetchAllCompaniesNFT() public view returns (address[] memory) {
+        address[] memory result = new address[](companyCount);
+        for (uint256 i = 0; i < companyCount; i++) {
+            address cur = address(companyNFTMapping[i]);
+            result[i] = cur;
+        }
+
+        return result;
+    }
+
     function fetchCompanyUsingCIN(
         string memory cin
     ) public view returns (Company memory) {

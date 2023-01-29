@@ -1,11 +1,11 @@
-.verifyPageContainer{
+.verifyPageContainer {
 	width: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 
-.verifyContainer{
+.verifyContainer {
 	width: 80%;
 	min-height: 80vh;
 	padding: 1rem;
@@ -15,42 +15,43 @@
 	justify-content: center;
 }
 
-.verifyDetails{
+.verifyDetails {
 	margin-bottom: 0.5rem;
 }
 
-.detailsContent{
-	color: #981EF8;
-    font-weight: bold;
+.detailsContent {
+	color: #981ef8;
+	font-weight: bold;
 }
 
-.checkProductBtn{
-    margin-top: 1rem;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    padding: 0.8rem 1.8rem;
-    background-image: linear-gradient(#ac3fff, #981EF8);
-    border: none;
-    outline: none;
-    border-radius: 0.4rem;
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: white;
-    transition: all 0.5s ease;
+.checkProductBtn {
+	margin-top: 1rem;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	padding: 0.8rem 1.8rem;
+	background-image: linear-gradient(#ac3fff, #981ef8);
+	border: none;
+	outline: none;
+	border-radius: 0.4rem;
+	font-size: 1.1rem;
+	font-weight: bold;
+	color: white;
+	transition: all 0.5s ease;
 }
 
-.checkProductBtn:hover{
-    background-image: linear-gradient(#ac3fff, #860fe1);
-    transform: scale(1.02);
+.checkProductBtn:hover {
+	background-image: linear-gradient(#ac3fff, #860fe1);
+	transform: scale(1.02);
 }
 
-.templateImage, .canvasContainer{
-    display: none;
+.templateImage,
+.canvasContainer {
+	/* display: none; */
 }
 
-.productPurchasedMessage{
-    display: flex;
-    justify-content: center;
-    padding: 2rem;
+.productPurchasedMessage {
+	display: flex;
+	justify-content: center;
+	padding: 2rem;
 }

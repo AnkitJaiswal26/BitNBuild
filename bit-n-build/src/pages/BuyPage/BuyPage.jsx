@@ -13,7 +13,7 @@ const BuyPage = () => {
 	const [productName, setProductName] = useState("");
 	const [companyName, setCompanyName] = useState("");
 	const [state, setState] = useState(0);
-  const [cidOfCard, setCidOfCard] = useState("");
+	const [cidOfCard, setCidOfCard] = useState("");
 
 	useEffect(() => {
 		checkIfWalletConnected();
@@ -21,23 +21,23 @@ const BuyPage = () => {
 		checkStateOfProductItem();
 	}, []);
 
-  useEffect(() => {
-    if(currentAccount !== "") {
-      fetchUser();
-    }
-  }, [currentAccount]);
+	useEffect(() => {
+		if (currentAccount !== "") {
+			fetchUser();
+		}
+	}, [currentAccount]);
 
-  const [user, setUser] = useState([]);
+	const [user, setUser] = useState([]);
 
-  const fetchUser = useCallback(async() => {
-    try{
-      const user = await fetchUserByAddress(currentAccount);
-      setUser(user);
-      console.log(user);
-    }catch(err){
-      console.log(err)
-    }
-  })
+	const fetchUser = useCallback(async () => {
+		try {
+			const user = await fetchUserByAddress(currentAccount);
+			setUser(user);
+			console.log(user);
+		} catch (err) {
+			console.log(err);
+		}
+	});
 
 	const {
 		buyProduct,
@@ -45,9 +45,10 @@ const BuyPage = () => {
 		fetchProductById,
 		fetchCompanyByAddress,
 		fetchCompanyNFTAddress,
-		checkState,fetchUserByAddress,
+		checkState,
+		fetchUserByAddress,
 		fetchProductItemByPrivateKey,
-    uploadFilesToIPFS
+		uploadFilesToIPFS,
 	} = useSafeBuyContext();
 
 	const fetchProductItem = useCallback(async () => {
@@ -81,12 +82,12 @@ const BuyPage = () => {
 			console.log("company", company);
 
 			var productItem = {
-					productName: product.name,
-					companyName: company.name,
-					cin: company.cin,
-					manDate: data.man_date,
-					exDate: data.ex_date,
-      };
+				productName: product.name,
+				companyName: company.name,
+				cin: company.cin,
+				manDate: data.man_date,
+				exDate: data.ex_date,
+			};
 			setProduct(productItem);
 			console.log("data", productItem);
 		} catch (err) {
@@ -115,7 +116,7 @@ const BuyPage = () => {
 				id
 			);
 			console.log(productItem);
-      setCidOfCard(productItem.cid);
+			setCidOfCard(productItem.cid);
 
 			const data = await checkState(
 				companyNFTAddress,
@@ -129,7 +130,7 @@ const BuyPage = () => {
 		}
 	});
 
-  function dataURLtoFile(dataurl, filename) {
+	function dataURLtoFile(dataurl, filename) {
 		var arr = dataurl.split(","),
 			mime = arr[0].match(/:(.*?);/)[1],
 			bstr = atob(arr[1]),
@@ -152,18 +153,14 @@ const BuyPage = () => {
 				companyAddress
 			);
 
-      var canvases = document.getElementsByClassName("templateCanvas");
-      
-      var url = canvases[0].toDataURL("image/png");
+			var canvases = document.getElementsByClassName("templateCanvas");
+			console.log(canvases[0]);
+			var url = canvases[0].toDataURL("image/png");
 
-      let file = dataURLtoFile(url, "warranty.png");
-      const cid = await uploadFilesToIPFS([file]);
-      console.log(cid);
-			await buyProduct(
-				companyNFTAddress,
-				privateKey,
-				cid
-			);
+			let file = dataURLtoFile(url, "warranty.png");
+			const cid = await uploadFilesToIPFS([file]);
+			console.log(cid);
+			await buyProduct(companyNFTAddress, privateKey, cid);
 			// (contractAddress, privateKey, tokenURI)
 			console.log("Product purchased and Private Key verified");
 		} catch (err) {
@@ -171,14 +168,14 @@ const BuyPage = () => {
 		}
 	});
 
-  const draw = async (context, entry, height, width) => {
+	const draw = async (context, entry, height, width) => {
 		var img = document.getElementById("templateImage");
 		context.drawImage(img, 0, 0, width, height);
 		context.font = "28px Arial";
 		context.fillStyle = "red";
 		context.fillText(user.name, 300, 598);
 
-    context.font = "15px Arial";
+		context.font = "15px Arial";
 		context.fillText(user.userAdd, 300, 555);
 	};
 
@@ -186,65 +183,71 @@ const BuyPage = () => {
 		<>
 			{state == 0 ? (
 				<div className={styles.verifyPageContainer}>
-          {(product.productName) ? <div className={styles.verifyContainer}>
-								<span className={styles.verifyDetails}>
-									Product Name:{" "}
-									<span className={styles.detailsContent}>
-										{product.productName}
-									</span>
+					{product.productName ? (
+						<div className={styles.verifyContainer}>
+							<span className={styles.verifyDetails}>
+								Product Name:{" "}
+								<span className={styles.detailsContent}>
+									{product.productName}
 								</span>
-								<span className={styles.verifyDetails}>
-									Company:{" "}
-									<span className={styles.detailsContent}>
-										{product.companyName}
-									</span>
+							</span>
+							<span className={styles.verifyDetails}>
+								Company:{" "}
+								<span className={styles.detailsContent}>
+									{product.companyName}
 								</span>
-								<span className={styles.verifyDetails}>
-									Company Identification Number:{" "}
-									<span className={styles.detailsContent}>
-										{product.cin}
-									</span>
+							</span>
+							<span className={styles.verifyDetails}>
+								Company Identification Number:{" "}
+								<span className={styles.detailsContent}>
+									{product.cin}
 								</span>
-								<span className={styles.verifyDetails}>
-									Manufacture Date:{" "}
-									<span className={styles.detailsContent}>
-										{product.manDate}
-									</span>
+							</span>
+							<span className={styles.verifyDetails}>
+								Manufacture Date:{" "}
+								<span className={styles.detailsContent}>
+									{product.manDate}
 								</span>
-								<span className={styles.verifyDetails}>
-									Expiry Date:{" "}
-									<span className={styles.detailsContent}>
-										{product.exDate}
-									</span>
+							</span>
+							<span className={styles.verifyDetails}>
+								Expiry Date:{" "}
+								<span className={styles.detailsContent}>
+									{product.exDate}
 								</span>
-								<button
-									onClick={checkProduct}
-									className={styles.checkProductBtn}
-								>
-									Buy Product
-								</button>
-                <div className={styles.canvasContainer}>
-                  <ProductCanvas
-                      entry={{
-                        product: product,
-                      }}
-                      draw={draw}
-                      height={900}
-                      width={700}
-                    />
-                </div>
+							</span>
+							<button
+								onClick={checkProduct}
+								className={styles.checkProductBtn}
+							>
+								Buy Product
+							</button>
+							<div className={styles.canvasContainer}>
+								<ProductCanvas
+									entry={{
+										product: product,
+									}}
+									draw={draw}
+									height={900}
+									width={700}
+								/>
+							</div>
 
-                <img
-                  id="templateImage"
-                  className={styles.templateImage}
-                  height={900}
-                  width={700}
-                  src={`https://${cidOfCard}.ipfs.w3s.link/warranty.png`}
-                />
-							</div>: <></>}
+							<img
+								id="templateImage"
+								className={styles.templateImage}
+								height={900}
+								width={700}
+								src={`https://${cidOfCard}.ipfs.w3s.link/warranty.png`}
+							/>
+						</div>
+					) : (
+						<></>
+					)}
 				</div>
 			) : (
-				<div className={styles.productPurchasedMessage}>The Product is already purchased!</div>
+				<div className={styles.productPurchasedMessage}>
+					The Product is already purchased!
+				</div>
 			)}
 		</>
 	);
