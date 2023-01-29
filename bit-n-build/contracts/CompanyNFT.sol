@@ -278,7 +278,7 @@ contract CompanyNFT is ERC721URIStorage {
         for (uint256 i = 0; i < count; i++) {
             uint256 currentId = i + 1;
             ProductItem storage currentItem = productItemsMapping[currentId];
-            items[currentId] = currentItem;
+            items[currentId-1] = currentItem;
             currentId += 1;
         }
         return items;

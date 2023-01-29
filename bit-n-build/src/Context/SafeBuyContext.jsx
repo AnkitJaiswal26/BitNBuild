@@ -267,30 +267,32 @@ export const SafeBuyProvider = ({ children }) => {
 	const buyProduct = async (contractAddress, privateKey, tokenURI) => {
 		const contract = await connectingWithCompanyNFT(contractAddress);
 
-		const web3Modal = new Wenb3Model();
-		const connection = await web3Modal.connect();
-		const provider = new ethers.providers.Web3Provider(connection);
-		let smartAccount = new SmartAccount(provider, options);
-		smartAccount = await smartAccount.init();
+		// const web3Modal = new Wenb3Model();
+		// const connection = await web3Modal.connect();
+		// const provider = new ethers.providers.Web3Provider(connection);
+		// let smartAccount = new SmartAccount(provider, options);
+		// smartAccount = await smartAccount.init();
 
-		console.log("--------------------------------------------------------");
-		console.log(smartAccount);
-		console.log("--------------------------------------------------------");
+		// console.log("--------------------------------------------------------");
+		// console.log(smartAccount);
+		// console.log("--------------------------------------------------------");
 
-		const data = contract.interface.encodeFunctionData("buyProduct", [
-			privateKey,
-			tokenURI,
-		]);
+		// const data = contract.interface.encodeFunctionData("buyProduct", [
+		// 	privateKey,
+		// 	tokenURI,
+		// ]);
 
-		const tx1 = {
-			to: SafeBuyAddress,
-			data,
-		};
+		// const tx1 = {
+		// 	to: SafeBuyAddress,
+		// 	data,
+		// 	gasLimit: 100000
+		// };
 
-		const txResponse = await smartAccount.sendGaslessTransaction({
-			transaction: tx1,
-		});
-		console.log(txResponse);
+		// const txResponse = await smartAccount.sendGaslessTransaction({
+		// 	transaction: tx1,
+		// });
+		// console.log(txResponse);
+		await contract.buyProduct(privateKey, tokenURI);
 	};
 
 	const checkState = async (contractAddress, pubKey) => {
@@ -313,7 +315,9 @@ export const SafeBuyProvider = ({ children }) => {
 
 	const fetchAllItems = async (contractAddress) => {
 		const contract = await connectingWithCompanyNFT(contractAddress);
+		console.log(contractAddress)
 		const data = await contract.fetchAllItems();
+		console.log(data);
 		return data;
 	};
 

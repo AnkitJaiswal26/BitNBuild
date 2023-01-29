@@ -237,6 +237,7 @@ const BuyPage = () => {
 								className={styles.templateImage}
 								height={900}
 								width={700}
+                crossorigin="anonymous"
 								src={`https://${cidOfCard}.ipfs.w3s.link/warranty.png`}
 							/>
 						</div>

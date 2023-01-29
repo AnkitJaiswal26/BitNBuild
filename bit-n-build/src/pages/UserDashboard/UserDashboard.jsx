@@ -20,9 +20,9 @@ const UserDashboard = () => {
 
 	const {
 		registerUser,
-		fetchUserByAddress,
+		fetchUserByAddress,fetchAllItems,
 		fetchUserItems,
-		fetchAllCompaniesNFT,
+		fetchAllCompaniesNFT,fetchProductById
 	} = useSafeBuyContext();
 	const fetchUser = useCallback(async () => {
 		try {
@@ -44,10 +44,21 @@ const UserDashboard = () => {
 	const fetchUserProductItems = async () => {
 		try {
 			const companies = await fetchAllCompaniesNFT();
+			console.log(companies)
 			var result = [];
 			for (let i = 0; i < companies.length; i++) {
 				const temp = await fetchUserItems(companies[i]);
-				result = [...result, ...temp];
+				console.log(temp);
+				for(let j=0; j<temp.length; j++){
+					const prod = await fetchProductById(companies[i], temp[j].productId);
+					result.push({
+						name: prod.name,
+						expiry: temp[j].ex_date,
+						cid: temp[j].cid
+					})	
+				}
+				// result = [...result, ...temp];
+				console.log(temp)
 			}
 			setProducts(result);
 			console.log(companies);
@@ -57,22 +68,7 @@ const UserDashboard = () => {
 	};
 
 	const [products, setProducts] = useState([
-		{
-			name: "Airdopes 121 v2",
-			expiryDate: "15/07/2023",
-		},
-		{
-			name: "Rockerz 235 v2",
-			expiryDate: "15/07/2023",
-		},
-		{
-			name: "BassHeads 100",
-			expiryDate: "15/07/2023",
-		},
-		{
-			name: "BassHeads 103",
-			expiryDate: "15/07/2023",
-		},
+		
 	]);
 
 	return (
@@ -140,14 +136,14 @@ const UserDashboard = () => {
 													styles.docCardContent
 												}
 											>
-												{item.expiryDate}
+												{item.expiry}
 											</span>
 											<span
 												className={
 													styles.docCardContent
 												}
 											>
-												<a href={item.guarenteeCard}>
+												<a target="_blank" href={`https://${item.cid}.ipfs.w3s.link/warranty.png`}>
 													Open
 												</a>
 											</span>
