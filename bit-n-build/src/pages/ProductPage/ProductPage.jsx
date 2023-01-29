@@ -5,7 +5,7 @@ import { useSafeBuyContext } from "../../Context/SafeBuyContext";
 import styles from "./ProductPage.module.css";
 import { v4 as uuidv4 } from "uuid";
 import * as xlsx from "xlsx";
-import template from '../../images/template.png';
+import template from "../../images/template.png";
 import ProductCanvas from "./ProductCanvas";
 import jsPDF from "jspdf";
 
@@ -29,7 +29,7 @@ const ProductPage = () => {
 		fetchAllProductItemsByProductId,
 		fetchProductById,
 		addBulkProducts,
-		uploadFilesToIPFS
+		uploadFilesToIPFS,
 	} = useSafeBuyContext();
 
 	const fetchUser = useCallback(async () => {
@@ -71,19 +71,18 @@ const ProductPage = () => {
 	}, [currentAccount, companyNFTAdd]);
 
 	function dataURLtoFile(dataurl, filename) {
- 
-        var arr = dataurl.split(','),
-            mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]), 
-            n = bstr.length, 
-            u8arr = new Uint8Array(n);
-            
-        while(n--){
-            u8arr[n] = bstr.charCodeAt(n);
-        }
-        
-        return new File([u8arr], filename, {type:mime});
-    }
+		var arr = dataurl.split(","),
+			mime = arr[0].match(/:(.*?);/)[1],
+			bstr = atob(arr[1]),
+			n = bstr.length,
+			u8arr = new Uint8Array(n);
+
+		while (n--) {
+			u8arr[n] = bstr.charCodeAt(n);
+		}
+
+		return new File([u8arr], filename, { type: mime });
+	}
 
 	const handleSubmit = async (e) => {
 		console.log(validity, manufDate);
@@ -92,9 +91,6 @@ const ProductPage = () => {
 		var pubKeys = [];
 		var privateKeys = [];
 		var tokenURI = [];
-		var validities = [];
-		var manuDates = [];
-		var expDates = [];
 
 		const codesURLList = [];
 
@@ -105,12 +101,9 @@ const ProductPage = () => {
 			pubKeys.push(publicKey);
 			privateKeys.push(privateKey);
 			tokenURI.push("");
-			validities.push(validity);
-			manuDates.push(manufDate);
-			expDates.push(expiryDate);
 			codesURLList.push({
 				publicURL: `http://localhost:3000/verify/${compData.comAdd}/${publicKey}`,
-				privateURL: `http://localhost:3000/buy/${compData.comAdd}/${privateKey}`
+				privateURL: `http://localhost:3000/buy/${compData.comAdd}/${privateKey}`,
 			});
 		}
 
@@ -121,7 +114,7 @@ const ProductPage = () => {
 
 		for (let i = 0; i < canvases.length; i++) {
 			var url = canvases[i].toDataURL("image/png");
-			
+
 			let file = dataURLtoFile(url, "warranty.png");
 			const cid = await uploadFilesToIPFS([file]);
 			console.log(cid);
@@ -133,10 +126,10 @@ const ProductPage = () => {
 			productId,
 			pubKeys,
 			privateKeys,
-			manuDates,
-			expDates,
+			manufDate,
+			expiryDate,
 			tokenURI,
-			validities
+			validity
 		);
 
 		await addBulkProducts(
@@ -144,17 +137,16 @@ const ProductPage = () => {
 			productId,
 			pubKeys,
 			privateKeys,
-			manuDates,
-			expDates,
+			manufDate,
+			expiryDate,
 			cids,
-			validities
+			validity
 		);
 
 		const worksheet = xlsx.utils.json_to_sheet(codesURLList);
 		const workbook = xlsx.utils.book_new();
-  		xlsx.utils.book_append_sheet(workbook, worksheet, "Codes URL");
+		xlsx.utils.book_append_sheet(workbook, worksheet, "Codes URL");
 		xlsx.writeFile(workbook, `codes-${productId}.xlsx`);
-
 	};
 
 	const draw = async (context, entry, height, width) => {
@@ -264,27 +256,27 @@ const ProductPage = () => {
 						</div>
 					</div>
 					<div className={styles.canvasContainer}>
-						{Array(parseInt(codesQuantity)).fill(0).map((_, index) => {
-							return (
-								<ProductCanvas
-									key={index}
-									entry={
-										{
+						{Array(parseInt(codesQuantity))
+							.fill(0)
+							.map((_, index) => {
+								return (
+									<ProductCanvas
+										key={index}
+										entry={{
 											productDetails: productDetails,
 											compData: compData,
 											manufDate: manufDate,
 											expiryDate: expiryDate,
-											validity: validity
-										}
-									}
-									draw={draw}
-									height={900}
-									width={700}
-								/>
-							);
-						})}
+											validity: validity,
+										}}
+										draw={draw}
+										height={900}
+										width={700}
+									/>
+								);
+							})}
 					</div>
-					
+
 					<img
 						id="templateImage"
 						className={styles.templateImage}

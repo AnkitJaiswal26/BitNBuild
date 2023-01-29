@@ -31,6 +31,7 @@ contract CompanyNFT is ERC721URIStorage {
         uint256 purchasedAt;
         uint256 validity;
         bool isPurchased;
+        string cid;
     }
 
     address private company;
@@ -131,7 +132,8 @@ contract CompanyNFT is ERC721URIStorage {
             pubKey: pubKey,
             privateKey: privateKey,
             purchasedAt: 0,
-            validity: validity
+            validity: validity,
+            cid: tokenURI
         });
 
         privateKeyToProductItemMapping[privateKey] = newItemId;
@@ -142,20 +144,20 @@ contract CompanyNFT is ERC721URIStorage {
         uint256 productId,
         string[] memory pubKeys,
         string[] memory privateKeys,
-        string[] memory man_date,
-        string[] memory ex_date,
+        string memory man_date,
+        string memory ex_date,
         string[] memory tokenURI,
-        uint256[] memory validity
+        uint256 validity
     ) public {
-        for (uint256 i = 0; i < man_date.length; i++) {
+        for (uint256 i = 0; i < pubKeys.length; i++) {
             mint(
                 productId,
-                man_date[i],
-                ex_date[i],
+                man_date,
+                ex_date,
                 pubKeys[i],
                 privateKeys[i],
                 tokenURI[i],
-                validity[i]
+                validity
             );
         }
     }
@@ -207,7 +209,7 @@ contract CompanyNFT is ERC721URIStorage {
     ) public view returns (ProductItem memory) {
         return productItemsMapping[itemId];
     }
-    
+
     function fetchProductItemByPrivateKey(
         string memory privateKey
     ) public view returns (uint256 id) {
@@ -217,7 +219,10 @@ contract CompanyNFT is ERC721URIStorage {
     function fetchProductItemByPublicKey(
         string memory publicKey
     ) public view returns (uint256 id) {
-        return privateKeyToProductItemMapping[pubKeyToPrivateKeyMapping[publicKey]];
+        return
+            privateKeyToProductItemMapping[
+                pubKeyToPrivateKeyMapping[publicKey]
+            ];
     }
 
     function growNFT(uint256 tokenId, string memory tokenURI) private {
