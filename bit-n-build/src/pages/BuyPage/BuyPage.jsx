@@ -219,7 +219,7 @@ const BuyPage = () => {
 								onClick={checkProduct}
 								className={styles.checkProductBtn}
 							>
-								Buy Product
+								Redeem Product
 							</button>
 							<div className={styles.canvasContainer}>
 								<ProductCanvas

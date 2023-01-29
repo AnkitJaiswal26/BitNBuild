@@ -3,21 +3,22 @@ import styles from './Navbar.module.css';
 import { useNavigate } from "react-router-dom";
 import Avatar, { genConfig } from 'react-nice-avatar';
 import logo from '../../images/logo.svg';
+import { useAuth } from "../../Context/AuthContext";
 
 const Navbar = () => {
 
     const navigate = useNavigate();
 
-    // const {checkIfWalletConnected, currentAccount} = useAuth();
+    const {checkIfWalletConnected, currentAccount} = useAuth();
 
-    // useEffect(() => {
-    //     checkIfWalletConnected();
-    // },[])
+    useEffect(() => {
+        checkIfWalletConnected();
+    },[])
 
     const navigateToHome = () => {
         navigate("/");
     }
-    const config = genConfig("asdf");
+    const config = genConfig(currentAccount);
     return (
         <div className={styles.navbar}>
             <div className={styles.navbarContainer}>
