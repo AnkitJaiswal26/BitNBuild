@@ -49,13 +49,14 @@ const UserDashboard = () => {
 				const temp = await fetchUserItems(companies[i]);
 				result = [...result, ...temp];
 			}
+			setProducts(result);
 			console.log(companies);
 		} catch (err) {
 			console.log(err);
 		}
 	};
 
-	const products = useState([
+	const [products, setProducts] = useState([
 		{
 			name: "Airdopes 121 v2",
 			expiryDate: "15/07/2023",
