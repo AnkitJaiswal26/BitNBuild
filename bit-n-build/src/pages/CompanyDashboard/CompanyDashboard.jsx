@@ -135,7 +135,7 @@ const CompanyDashboard = () => {
 				style={customStyles}
 				contentLabel="Example Modal"
 			>
-				<div>
+				<div className={styles.addProductModalContainer}>
 					<button onClick={closeAddProductModal}>close</button>
 
 					<div className={`${styles.inputContainer}`}>
@@ -165,7 +165,7 @@ const CompanyDashboard = () => {
 						/>
 					</div>
 
-					<button onClick={handleAddProduct}>Add Product</button>
+					<button className={styles.addProductModalBtn} onClick={handleAddProduct}>Add Product</button>
 				</div>
 			</Modal>
 			<div className={styles.companyDashboardContainer}>

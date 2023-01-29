@@ -169,7 +169,7 @@ const ProductVerifyPage = () => {
 					</div>
 				</div>
 			) : (
-				<div>The Product is already purchased!</div>
+				<div className={styles.productPurchasedMessage}>The Product is already purchased!</div>
 			)}
 		</>
 	);

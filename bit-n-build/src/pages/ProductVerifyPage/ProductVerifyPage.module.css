@@ -44,3 +44,9 @@
     background-image: linear-gradient(#ac3fff, #860fe1);
     transform: scale(1.02);
 }
+
+.productPurchasedMessage{
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}

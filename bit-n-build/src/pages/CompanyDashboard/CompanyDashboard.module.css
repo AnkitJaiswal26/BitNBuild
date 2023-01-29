@@ -215,6 +215,23 @@
     transform: scale(1.02);
 }
 
+.addProductModalContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.addProductModalBtn{
+    border: none;
+    outline: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.2rem;
+    background-color: #981EF8;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
 @media only screen and (max-width: 850px) {
     .docCardHeader{
         font-size: 0.9rem;
