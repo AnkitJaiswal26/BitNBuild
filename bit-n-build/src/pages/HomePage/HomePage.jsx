@@ -31,7 +31,7 @@ const HomePage = () => {
                 </div>
                 <div className={styles.descSection}>
                 <span>Building a secure & efficient solution<br />
-        for Certificate Verification</span>
+        for Product Verification</span>
                 <div className={styles.heroBtnContainer}>
                     <button onClick={navigateToUserRegisterPage} className={`${styles.registerBtn} ${styles.userBtn}`}>
                         <PersonIcon className={styles.btnIcon} />

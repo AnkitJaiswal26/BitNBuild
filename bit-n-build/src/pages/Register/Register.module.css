@@ -27,7 +27,7 @@
 .inputContainer {
     display: flex;
     flex-direction: column;
-    width: 25%;
+    width: 330px;
 }
 
 .inputLabel {
@@ -41,7 +41,7 @@
 
 .input {
     width: 100%;
-    padding: 12px 0px;
+    padding: 12px 12px;
     outline: none;
     border: 1px #525252 solid;
     margin: 0.1rem;
@@ -67,7 +67,7 @@
 }
 
 .registerBtn:hover, .submitButton:hover{
-    background-image: linear-gradient(#538cff, #1c68ff);
+    background-image: linear-gradient(#981EF8, #8c0fec);
     transform: scale(1.02);
 }
 
@@ -102,3 +102,9 @@
     /* width: 10%; */
 }
 
+
+@media only screen and (max-width: 500px) {
+    .inputContainer {
+        width: 80%;
+    }
+}

@@ -8,6 +8,7 @@ import axios from "axios";
 import Modal from "react-modal";
 import { useSafeBuyContext } from "../../Context/SafeBuyContext";
 import { useAuth } from "../../Context/AuthContext";
+import CloseIcon from '@mui/icons-material/Close';
 
 const customStyles = {
 	content: {
@@ -90,18 +91,7 @@ const CompanyDashboard = () => {
 	}, [currentAccount, companyNFTAdd]);
 
 	const [products, setProducts] = useState([
-		{
-			name: "Airdopes 121 v2",
-			codesGen: 204,
-		},
-		{
-			name: "Rockerz 235 v2",
-			codesGen: 1056,
-		},
-		{
-			name: "BassHeads 103",
-			codesGen: 2046,
-		},
+		
 	]);
 
 	const closeAddProductModal = () => {
@@ -136,7 +126,7 @@ const CompanyDashboard = () => {
 				contentLabel="Example Modal"
 			>
 				<div className={styles.addProductModalContainer}>
-					<button onClick={closeAddProductModal}>close</button>
+					<button className={styles.modalCloseBtn} onClick={closeAddProductModal}><CloseIcon /></button>
 
 					<div className={`${styles.inputContainer}`}>
 						<label className={`${styles.inputLabel}`}>
@@ -171,7 +161,7 @@ const CompanyDashboard = () => {
 			<div className={styles.companyDashboardContainer}>
 				<div className={styles.dashboardBox}>
 					<div className={styles.heading}>
-						Welcome <span className={styles.accountName}>boAt</span>
+						Welcome <span className={styles.accountName}>{compData.name}</span>
 					</div>
 					<div className={styles.detailsBox}>
 						<span className={styles.detailsHeading}>
@@ -255,7 +245,7 @@ const CompanyDashboard = () => {
 							</>
 						) : (
 							<span className={styles.emptyListMessage}>
-								No documents found
+								No products found
 							</span>
 						)}
 					</div>

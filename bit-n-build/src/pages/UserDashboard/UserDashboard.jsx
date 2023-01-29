@@ -153,7 +153,7 @@ const UserDashboard = () => {
 							</>
 						) : (
 							<span className={styles.emptyListMessage}>
-								No documents found
+								No products found
 							</span>
 						)}
 					</div>

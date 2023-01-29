@@ -45,6 +45,10 @@
 	transform: scale(1.02);
 }
 
+.canvasContainer{
+    margin-top: 2rem;
+}
+
 .templateImage,
 .canvasContainer {
 	/* display: none; */

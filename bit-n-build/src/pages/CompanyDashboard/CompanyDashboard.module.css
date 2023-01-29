@@ -143,10 +143,18 @@
     width: 100%;
 }
 
+.modalCloseBtn{
+    align-self: flex-end;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
 .inputContainer {
     display: flex;
     flex-direction: row;
-    width: 60%;
+    width: 100%;
 }
 
 .inputLabel {
