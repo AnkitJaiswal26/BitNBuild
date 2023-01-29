@@ -70,6 +70,21 @@ const ProductPage = () => {
 		if (companyNFTAdd) fetchProducts();
 	}, [currentAccount, companyNFTAdd]);
 
+	function dataURLtoFile(dataurl, filename) {
+ 
+        var arr = dataurl.split(','),
+            mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), 
+            n = bstr.length, 
+            u8arr = new Uint8Array(n);
+            
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        
+        return new File([u8arr], filename, {type:mime});
+    }
+
 	const handleSubmit = async (e) => {
 		console.log(validity, manufDate);
 		e.preventDefault();
@@ -106,12 +121,9 @@ const ProductPage = () => {
 
 		for (let i = 0; i < canvases.length; i++) {
 			var url = canvases[i].toDataURL("image/png");
-			const pdf = new jsPDF("p", "mm", [157.1625, 111.125]);
-			pdf.addImage(url, "JPEG", 0, 0);
-
-			const files = [new File([pdf.output("blob")], "warranty.pdf")];
-
-			const cid = await uploadFilesToIPFS(files);
+			
+			let file = dataURLtoFile(url, "warranty.png");
+			const cid = await uploadFilesToIPFS([file]);
 			console.log(cid);
 			cids.push(cid);
 		}
