@@ -16,6 +16,10 @@ const UserDashboard = () => {
 
 	useEffect(() => {
 		checkIfWalletConnected();
+		if (currentAccount) {
+			fetchUser();
+			fetchUserProductItems();
+		}
 	}, [currentAccount]);
 
 	const {
@@ -33,13 +37,6 @@ const UserDashboard = () => {
 			navigate("/register");
 		}
 	});
-
-	useEffect(() => {
-		if (currentAccount) {
-			fetchUser();
-			fetchUserProductItems();
-		}
-	}, [currentAccount]);
 
 	const fetchUserProductItems = async () => {
 		try {

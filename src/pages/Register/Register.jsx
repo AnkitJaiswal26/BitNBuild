@@ -36,6 +36,7 @@ const Register = () => {
 
 	useEffect(() => {
 		checkIfWalletConnected();
+		if (currentAccount) fetchUser();
 	}, [currentAccount]);
 
 	const { registerUser, fetchUserByAddress } = useSafeBuyContext();
@@ -51,10 +52,6 @@ const Register = () => {
 			console.log("User cannot be fetched")
 		}
 	});
-
-	useEffect(() => {
-		if (currentAccount) fetchUser();
-	}, [currentAccount]);
 
 	const handleSubmit = async (e) => {
 		console.log("Hello");

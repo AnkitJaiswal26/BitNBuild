@@ -13,9 +13,6 @@ const ProductVerifyPage = () => {
 
 	useEffect(() => {
 		checkIfWalletConnected();
-	}, [currentAccount]);
-
-	useEffect(() => {
 		fetchProductItem();
 		checkStateOfProductItem();
 	}, [currentAccount]);
